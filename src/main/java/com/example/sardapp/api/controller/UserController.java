@@ -1,43 +1,58 @@
-package com.example.sardapp.controller;
-
-import com.example.sardapp.entities.User;
-import com.example.sardapp.entities.request.AddUserRequest;
-import com.example.sardapp.respositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+package com.example.sardapp.api.controller;
 
 import java.util.List;
+
+import com.example.sardapp.entities.User;
+import com.example.sardapp.api.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class UserController
 {
-    private UserRepository userRepository;
-
     @Autowired
-    public UserController(UserRepository userRepository)
-    {
-        this.userRepository = userRepository;
-    }
+    private UserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> findAll()
+    {
+        return userService.findAll();
     }
 
-    @RequestMapping (method = RequestMethod.GET)
-    public List<User> findAllUsers ()
+    @GetMapping("/users/{username}")
+    public User getUser(@PathVariable String username)
     {
-        return userRepository.findAll();
+        User user = userService.findByUsername(username);
+
+        if (user == null) throw new RuntimeException("User not found -" + username);
+
+        return user;
     }
 
-    @RequestMapping (method = RequestMethod.POST)
-    public void addUser(@RequestBody AddUserRequest addUserRequest)
+    @PostMapping("/users")
+    public User addUser(@RequestBody User user)
     {
-        User user = new User();
-        user.setUsername(addUserRequest.getUsername());
-        user.setPassword(addUserRequest.getPassword());
-        user.setEmail(addUserRequest.getEmail());
-        userRepository.save(user);
+        user.setUsername("userTest");
+        userService.save(user);
+        return user;
     }
+
+    @PutMapping("/users")
+    public User updateUser(@RequestBody User user)
+    {
+        userService.save(user);
+        return user;
+    }
+
+    @DeleteMapping("users/{username}")
+    public String deleteUser(@PathVariable String username)
+    {
+        User user = userService.findByUsername(username);
+        if(user == null) throw new RuntimeException("User not found -" + username);
+        userService.deleteByUsername(username);
+        return "Deleted user id - " + username;
+    }
+
 }
