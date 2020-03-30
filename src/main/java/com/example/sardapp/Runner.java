@@ -1,10 +1,10 @@
 package com.example.sardapp;
 
+import com.example.sardapp.hibernate.Factory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.example.sardapp.entities.User;
-import com.example.sardapp.util.HibernateUtil;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -20,7 +20,7 @@ public class Runner
 
         Transaction transaction = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession())
+        try (Session session = Factory.getSessionFactory(User.class).openSession())
         {
             // start a transaction
             transaction = session.beginTransaction();
@@ -37,7 +37,7 @@ public class Runner
             e.printStackTrace();
         }
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession())
+        try (Session session = Factory.getSessionFactory(User.class).openSession())
         {
             List<User> users = session.createQuery("from User", User.class).list();
             users.forEach(u -> System.out.println(u.getUsername()));

@@ -6,27 +6,12 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://ec2-54-247-169-129.eu-west-1.compute.amazonaws.com:5432/ddvs857atf880a?sslmode=require&amp;useSSL=false</property>
+        <property name="connection.url">jdbc:postgresql://ec2-54-247-169-129.eu-west-1.compute.amazonaws.com:5432/ddvs857atf880a?sslmode=require</property>
         <property name="connection.username">ernnfyjjdijqos</property>
         <property name="connection.password">34ca76441631815f49e2bb1ecf97ec34d5905b3530570d0af3ae56e23e5edb83</property>
-
-        <!-- JDBC connection pool settings ... using built-in test pool -->
-        <property name="connection.pool_size">1</property>
-
-        <!-- Select our SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-
-        <!-- Echo the SQL to stdout -->
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-
-        <!-- Set the current session context -->
-        <property name="current_session_context_class">thread</property>
-
-        <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
-
-        <!-- dbcp connection pool configuration -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.default_schema">public</property>
         <mapping class="com.example.sardapp.entities.User" />
     </session-factory>
 </hibernate-configuration>

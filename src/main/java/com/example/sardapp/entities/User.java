@@ -3,7 +3,7 @@ package com.example.sardapp.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User
 {
     @Id

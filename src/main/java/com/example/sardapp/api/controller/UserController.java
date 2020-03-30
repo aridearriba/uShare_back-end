@@ -4,14 +4,12 @@ import com.example.sardapp.entities.User;
 import com.example.sardapp.entities.request.AddUserRequest;
 import com.example.sardapp.respositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class UserController
 {
     private UserRepository userRepository;
@@ -20,6 +18,11 @@ public class UserController
     public UserController(UserRepository userRepository)
     {
         this.userRepository = userRepository;
+    }
+
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @RequestMapping (method = RequestMethod.GET)
