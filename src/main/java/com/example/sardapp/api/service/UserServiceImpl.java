@@ -1,5 +1,7 @@
 package com.example.sardapp.api.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.sardapp.entities.User;
 import com.example.sardapp.api.dao.UserDAO;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserServiceImpl implements UserService
@@ -22,9 +25,9 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public User findByUsername(String username)
+    public User findByEmail(String email)
     {
-        User user = userDAO.findByUsername(username);
+        User user = userDAO.findByEmail(email);
         return user;
     }
 
@@ -35,8 +38,14 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void deleteByUsername(String username)
+    public void deleteByEmail(String email)
     {
-        userDAO.deleteByUsername(username);
+        userDAO.deleteByEmail(email);
+    }
+
+    @Override
+    public void addProfileImage(String email, MultipartFile image) throws IOException
+    {
+        userDAO.addProfileImage(email, image);
     }
 }

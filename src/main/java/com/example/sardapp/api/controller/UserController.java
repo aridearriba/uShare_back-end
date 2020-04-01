@@ -1,5 +1,7 @@
 package com.example.sardapp.api.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.example.sardapp.database.UserManage.signUp;
 
@@ -21,6 +24,10 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    /*  Method: GET
+        Obtain some data from database
+    */
+    /*  Get all users*/
     @GetMapping("/users")
     public ResponseEntity findAll()
     {
@@ -32,10 +39,11 @@ public class UserController
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/users/{username}")
-    public ResponseEntity getUser(@PathVariable String username)
+    /* Get one user specified by an email*/
+    @GetMapping("/users/{email}")
+    public ResponseEntity getUser(@PathVariable String email)
     {
-        User user = userService.findByUsername(username);
+        User user = userService.findByEmail(email);
 
         if(user == null)
         {
@@ -44,6 +52,11 @@ public class UserController
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
+
+    /*  Method: POST
+        Create new entry into database
+    */
+    /*  Create new user*/
     @PostMapping("/users")
     public ResponseEntity addUser(@RequestBody User user) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
@@ -51,18 +64,36 @@ public class UserController
         {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        User userExists = userService.findByUsername(user.getUsername());
+        User userFound = userService.findByEmail(user.getEmail());
 
-        if(userExists != null)
+        if(userFound != null)
         {
             return new ResponseEntity("Username used", HttpStatus.BAD_REQUEST);
         }
-        signUp(user.getUsername(), user.getPassword(), user.getEmail());
-        return new ResponseEntity("User created successfully", HttpStatus.CREATED);
+        signUp(user.getEmail(), user.getPassword());
+        return new ResponseEntity(user, HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{username}")
-    public ResponseEntity updateUser(@RequestBody User user)
+
+    /*  Method: PUT
+        Modify an entry from database
+    */
+    /*  Modify a user's profile image specified by an email */
+    @PutMapping("/users/{email}/profileImage")
+    public ResponseEntity updateProfileImage(@PathVariable String email, @RequestBody MultipartFile image) throws IOException
+    {
+        User user = userService.findByEmail(email);
+        if(user == null)
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        userService.addProfileImage(email, image);
+        return new ResponseEntity(user, HttpStatus.CREATED);
+    }
+
+    /*  Modify a user's password specified by an email */
+    @PutMapping("/users/{email}")
+    public ResponseEntity updatePassword(@RequestBody User user)
     {
         if(user == null)
         {
@@ -72,12 +103,16 @@ public class UserController
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("users/{username}")
-    public ResponseEntity deleteUser(@PathVariable String username)
+    /*  Method: DELETE
+        Delete an entry from database
+    */
+    /*  Delete an specific user by its email */
+    @DeleteMapping("users/{email}")
+    public ResponseEntity deleteUser(@PathVariable String email)
     {
-        User user = userService.findByUsername(username);
+        User user = userService.findByEmail(email);
         if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        userService.deleteByUsername(username);
+        userService.deleteByEmail(email);
         return new ResponseEntity("User deleted successfully", HttpStatus.NO_CONTENT);
     }
 

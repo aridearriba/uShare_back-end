@@ -15,8 +15,8 @@ public class Runner
 {
     public static void main(String[] args)
     {
-        User user = new User("user", "user123", "user@gmail.com");
-        User user1 = new User("user1", "pswd", "user1@gmail.com");
+        User user = new User("user@gmail.com", "user123");
+        User user1 = new User("user1@gmail.com", "pswd");
 
         Transaction transaction = null;
 
@@ -40,7 +40,7 @@ public class Runner
         try (Session session = Factory.getSessionFactory(User.class).openSession())
         {
             List<User> users = session.createQuery("from User", User.class).list();
-            users.forEach(u -> System.out.println(u.getUsername()));
+            users.forEach(u -> System.out.println(u.getEmail()));
         } catch (Exception e)
         {
             if (transaction != null) transaction.rollback();

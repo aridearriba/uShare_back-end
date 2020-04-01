@@ -7,42 +7,22 @@ import javax.persistence.*;
 public class User
 {
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "profileImage")
+    private byte[] image;
 
     public User() { }
 
-    public User(String username, String password, String email)
+    public User(String email, String password)
     {
-        this.username = username;
-        this.password = password;
         this.email = email;
-    }
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
         this.password = password;
+        this.image = null;
     }
 
     public String getEmail()
@@ -55,9 +35,29 @@ public class User
         this.email = email;
     }
 
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
+
     @Override
     public String toString()
     {
-        return "User [username=" + username + ", password=" + password + ", email=" + email + "]";
+        return "User [email=" + email + ", password=" + password + ", image=" + image.toString() + "]";
     }
 }
