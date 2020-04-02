@@ -34,7 +34,7 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     public boolean save(User user)
     {
         getSession().beginTransaction();
-        getSession().save(user);
+        getSession().saveOrUpdate(user);
         getSession().getTransaction().commit();
         return getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
     }

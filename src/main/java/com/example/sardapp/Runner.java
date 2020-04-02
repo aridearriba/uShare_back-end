@@ -15,8 +15,8 @@ public class Runner
 {
     public static void main(String[] args)
     {
-        User user = new User("user@gmail.com", "user123");
-        User user1 = new User("user1@gmail.com", "pswd");
+        User user = new User();
+        User user1 = new User();
 
         Transaction transaction = null;
 

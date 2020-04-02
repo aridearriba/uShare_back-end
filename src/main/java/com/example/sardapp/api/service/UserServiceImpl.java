@@ -2,8 +2,13 @@ package com.example.sardapp.api.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Date;
 import java.util.List;
 
+import com.example.sardapp.api.dao.UserDAOImpl;
+import com.ja.security.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +37,13 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void save(User user)
+    public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
+        // Convert password to hash and set it
+        String hashedPassword = new PasswordHash().createHash(user.getPassword());
+        user.setPassword(hashedPassword);
+
+        // Save user to DB
         userDAO.save(user);
     }
 

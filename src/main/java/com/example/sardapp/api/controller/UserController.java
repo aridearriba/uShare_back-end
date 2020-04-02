@@ -60,17 +60,14 @@ public class UserController
     @PostMapping("/users")
     public ResponseEntity addUser(@RequestBody User user) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
-        if(user == null)
-        {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
         User userFound = userService.findByEmail(user.getEmail());
 
         if(userFound != null)
         {
             return new ResponseEntity("Username used", HttpStatus.BAD_REQUEST);
         }
-        signUp(user.getEmail(), user.getPassword());
+        //signUp(user.getEmail(), user.getPassword());
+        userService.save(user);
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
 
@@ -85,7 +82,7 @@ public class UserController
         User user = userService.findByEmail(email);
         if(user == null)
         {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User not exists", HttpStatus.BAD_REQUEST);
         }
         userService.addProfileImage(email, image);
         return new ResponseEntity(user, HttpStatus.CREATED);
@@ -93,11 +90,12 @@ public class UserController
 
     /*  Modify a user's password specified by an email */
     @PutMapping("/users/{email}")
-    public ResponseEntity updatePassword(@RequestBody User user)
+    public ResponseEntity updatePassword(@PathVariable String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
+        User user = userService.findByEmail(email);
         if(user == null)
         {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User not exists", HttpStatus.BAD_REQUEST);
         }
         userService.save(user);
         return new ResponseEntity(user, HttpStatus.OK);

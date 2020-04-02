@@ -21,7 +21,9 @@ public class UserManage
     {
         String hashedPassword = new PasswordHash().createHash(password);
         // create user
-        User user = new User(email, hashedPassword);
+        User user = new User();
+        user.setEmail(user.getEmail());
+        user.setPassword(hashedPassword);
         // save user
         UserDAO users = new UserDAOImpl();
         users.save(user);
