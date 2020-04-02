@@ -1,5 +1,6 @@
 package com.example.sardapp.api.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.example.sardapp.api.session.AbstractSession;
@@ -7,6 +8,7 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.stereotype.Repository;
 
 import com.example.sardapp.entities.User;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 public class UserDAOImpl extends AbstractSession implements UserDAO
@@ -18,25 +20,25 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     }
 
     @Override
-    public User findByUsername(String username)
+    public User findByEmail(String email)
     {
-        return getSession().get(User.class, username);
+        return getSession().get(User.class, email);
     }
 
     @Override
     public boolean save(User user)
     {
         getSession().beginTransaction();
-        getSession().save(user);
+        getSession().saveOrUpdate(user);
         getSession().getTransaction().commit();
         return getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
     }
 
     @Override
-    public boolean deleteByUsername(String username)
+    public boolean deleteByEmail(String email)
     {
         boolean result = false;
-        User user = findByUsername(username);
+        User user = findByEmail(email);
         if(user != null) {
             getSession().beginTransaction();
             getSession().delete(user);
@@ -44,5 +46,19 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
             result = getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
         }
         return result;
+    }
+
+    @Override
+    public boolean addProfileImage(String email, MultipartFile image) throws IOException
+    {
+        byte[] fileBytes = image.getBytes();
+
+        // Update image in user
+        User user = findByEmail(email);
+        user.setImage(fileBytes);
+        getSession().beginTransaction();
+        getSession().saveOrUpdate(user);
+        getSession().getTransaction().commit();
+        return getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
     }
 }
