@@ -1,6 +1,5 @@
 package com.example.sardapp.api.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.example.sardapp.database.UserManage.signUp;
 
 @RestController
 @RequestMapping("/api")
@@ -90,13 +88,14 @@ public class UserController
 
     /*  Modify a user's password specified by an email */
     @PutMapping("/users/{email}")
-    public ResponseEntity updatePassword(@PathVariable String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException
+    public ResponseEntity updatePassword(@PathVariable String email, @RequestBody String password) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
         User user = userService.findByEmail(email);
         if(user == null)
         {
             return new ResponseEntity("User not exists", HttpStatus.BAD_REQUEST);
         }
+        user.setPassword(password);
         userService.save(user);
         return new ResponseEntity(user, HttpStatus.OK);
     }

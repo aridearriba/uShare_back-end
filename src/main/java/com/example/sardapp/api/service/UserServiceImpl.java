@@ -1,13 +1,10 @@
 package com.example.sardapp.api.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
 import java.util.List;
 
-import com.example.sardapp.api.dao.UserDAOImpl;
 import com.ja.security.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,4 +55,6 @@ public class UserServiceImpl implements UserService
     {
         userDAO.addProfileImage(email, image);
     }
+
+
 }

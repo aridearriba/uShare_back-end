@@ -1,11 +1,6 @@
 package com.example.sardapp.api.dao;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.PreparedStatement;
 import java.util.List;
 
 import com.example.sardapp.api.session.AbstractSession;
