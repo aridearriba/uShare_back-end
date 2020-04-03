@@ -32,7 +32,7 @@ public class UserController
         List<User> users = userService.findAll();
         if(users == null)
         {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
         }
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class UserController
 
         if(user == null)
         {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(user, HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class UserController
 
         if(userFound != null)
         {
-            return new ResponseEntity("Username used", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User already exists with this email", HttpStatus.CONFLICT);
         }
         //signUp(user.getEmail(), user.getPassword());
         userService.save(user);
@@ -80,7 +80,7 @@ public class UserController
         User user = userService.findByEmail(email);
         if(user == null)
         {
-            return new ResponseEntity("User not exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
         userService.addProfileImage(email, image);
         return new ResponseEntity(user, HttpStatus.CREATED);
@@ -93,7 +93,7 @@ public class UserController
         User user = userService.findByEmail(email);
         if(user == null)
         {
-            return new ResponseEntity("User not exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
         user.setPassword(password);
         userService.save(user);
@@ -108,7 +108,10 @@ public class UserController
     public ResponseEntity deleteUser(@PathVariable String email)
     {
         User user = userService.findByEmail(email);
-        if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        if (user == null)
+        {
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+        }
         userService.deleteByEmail(email);
         return new ResponseEntity("User deleted successfully", HttpStatus.NO_CONTENT);
     }
