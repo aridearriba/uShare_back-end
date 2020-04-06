@@ -72,7 +72,6 @@
             <version>2.2.4.RELEASE</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -80,10 +79,16 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+            </plugin>
+            <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
+                    <appName>sardapp</appName>
                     <processTypes>
                         <web>java $JAVA_OPTS -cp target/classes:target/dependency/* RunnerAPI</web>
                     </processTypes>
