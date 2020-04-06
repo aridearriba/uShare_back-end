@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class Runner
 {
-    public static void main(String[] args)
+   /* public static void main(String[] args)
     {
         User user = new User();
         User user1 = new User();
@@ -46,6 +46,6 @@ public class Runner
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
-    }
+    }*/
 }
 
