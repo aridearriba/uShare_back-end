@@ -100,7 +100,7 @@
                 <configuration>
                     <appName>sardapp</appName>
                     <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* RunnerAPI</web>
+                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* com.example.sardapp.api.RunnerAPI</web>
                     </processTypes>
                 </configuration>
             </plugin>
