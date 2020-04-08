@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Api(tags = "User")
-@RequestMapping("/api/users")
+@RequestMapping("/api/usuarios")
 public class UserController
 {
     @Autowired
