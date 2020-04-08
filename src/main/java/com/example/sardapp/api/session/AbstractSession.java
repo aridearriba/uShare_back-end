@@ -16,7 +16,6 @@ public class AbstractSession
         if (session == null) session = sessionFactory.openSession();
     }
 
-    @Bean
     protected Session getSession()
     {
         newSession();
