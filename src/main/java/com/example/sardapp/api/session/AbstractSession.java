@@ -4,6 +4,7 @@ import com.example.sardapp.entities.User;
 import com.example.sardapp.hibernate.Factory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.Bean;
 
 public class AbstractSession
 {
@@ -15,6 +16,7 @@ public class AbstractSession
         if (session == null) session = sessionFactory.openSession();
     }
 
+    @Bean
     protected Session getSession()
     {
         newSession();
