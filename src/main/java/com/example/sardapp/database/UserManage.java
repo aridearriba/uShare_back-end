@@ -39,19 +39,5 @@ public class UserManage
             return false;
         }
     }
-
-    public static void delete(String email)
-    {
-        UserDAO users = new UserDAOImpl();
-        users.deleteByEmail(email);
-    }
-
-    public static void addProfileImage(String email, byte[] image)
-    {
-        User user = new UserDAOImpl().findByEmail(email);
-        user.setImage(image);
-        UserDAO users = new UserDAOImpl();
-        users.save(user);
-    }
 }
 

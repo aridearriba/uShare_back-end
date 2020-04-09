@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.example.sardapp.database.UserManage.login;
 
 @RestController
 @Api(tags = "User")
@@ -74,6 +75,24 @@ public class UserController
         //signUp(user.getEmail(), user.getPassword());
         userService.save(user);
         return new ResponseEntity(user, HttpStatus.CREATED);
+    }
+
+    /* Log in user specified by its email and password*/
+    @PostMapping(value = "/{email}/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Login user", notes = "Login user by its email and password")
+    public ResponseEntity loginUser(@PathVariable String email, @RequestBody String password) throws InvalidKeySpecException, NoSuchAlgorithmException
+    {
+        User userDB = userService.findByEmail(email);
+
+        if (userDB != null)
+        {
+            if (login(email, password))
+            {
+                return new ResponseEntity("User logged successfully", HttpStatus.OK);
+            }
+            else return new ResponseEntity("Incorrect password", HttpStatus.BAD_REQUEST);
+        }
+        else return new ResponseEntity("User not found",HttpStatus.NOT_FOUND);
     }
 
 
