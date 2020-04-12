@@ -12,4 +12,5 @@ public interface UserDAO
     public boolean save(User user);
     public boolean deleteByEmail(String email);
     public boolean addProfileImage(String email, MultipartFile image) throws IOException;
+
 }

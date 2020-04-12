@@ -1,6 +1,7 @@
 package com.example.sardapp.api.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.sardapp.api.session.AbstractSession;
@@ -61,4 +62,5 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
         getSession().getTransaction().commit();
         return getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
     }
+
 }

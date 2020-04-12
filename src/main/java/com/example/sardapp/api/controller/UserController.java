@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.example.sardapp.database.UserManage.login;
+import static com.example.sardapp.database.UserManage.*;
 
 @RestController
 @Api(tags = "User")
@@ -55,6 +55,23 @@ public class UserController
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(user, HttpStatus.OK);
+    }
+
+    /* Get users by some filters*/
+    @GetMapping(value = "/filters", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get users by filters", notes = "Get each user with parameter events checked")
+    public ResponseEntity getUsersbyFilters(@RequestParam List<String> events, @RequestParam List<String> preferences)
+    {
+        if (checkEventNames(events) && checkPreferencesNames(preferences))
+        {
+            List<User> users = findByFilters(events, preferences);
+            if(users == null)
+            {
+                return new ResponseEntity("No users with this filters", HttpStatus.OK);
+            }
+            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        }
+        return new ResponseEntity("Some filter name is wrong", HttpStatus.BAD_REQUEST);
     }
 
 
