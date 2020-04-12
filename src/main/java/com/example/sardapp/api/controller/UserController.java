@@ -60,7 +60,7 @@ public class UserController
     /* Get users by some filters*/
     @GetMapping(value = "/filters", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get users by filters", notes = "Get each user with parameter events checked")
-    public ResponseEntity getUsersbyFilters(@RequestParam List<String> events, @RequestParam List<String> preferences)
+    public ResponseEntity getUsersbyFilters(@RequestParam(required = false) List<String> events, @RequestParam(required = false) List<String> preferences)
     {
         if (checkEventNames(events) && checkPreferencesNames(preferences))
         {

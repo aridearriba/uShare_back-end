@@ -47,6 +47,7 @@ public class UserManage
         List<User> users = new UserDAOImpl().findAll();
         users = getUsersByEvents(users, events);
         users = getUsersByPreferences(users, preferences);
+
         return users;
     }
 
@@ -55,6 +56,8 @@ public class UserManage
         List<User> filteredList = new ArrayList<>();
 
         boolean add = false;
+
+        if (events == null) return users;
 
         for (User user : users)
         {
@@ -102,6 +105,7 @@ public class UserManage
         List<User> filteredList = new ArrayList<>();
 
         boolean add = false;
+        if (preferences == null) return users;
 
         for (User user : users)
         {
@@ -147,12 +151,14 @@ public class UserManage
     public static boolean checkEventNames(List<String> events)
     {
         Boolean nameOK = false;
+        if (events == null) return true;
         for (String event: events)
         {
             if (event.equals("aplecs") || event.equals("ballades") || event.equals("concerts") ||
                     event.equals("concursos") || event.equals("cursets") || event.equals("altres"))
                 nameOK = true;
-            else {
+            else
+            {
                 nameOK = false;
                 break;
             }
@@ -160,15 +166,18 @@ public class UserManage
         return nameOK;
     }
 
-    public static boolean checkPreferencesNames(List<String> events)
+    public static boolean checkPreferencesNames(List<String> preferences)
     {
         Boolean nameOK = false;
-        for (String event: events)
+        System.out.println("CHECK");
+        if (preferences == null) return true;
+        for (String preference: preferences)
         {
-            if (event.equals("edat") || event.equals("proximitat") || event.equals("comptar") ||
-                    event.equals("interes") || event.equals("experiencia") || event.equals("qualitat"))
+            if (preference.equals("edat") || preference.equals("proximitat") || preference.equals("comptar") ||
+                    preference.equals("interes") || preference.equals("experiencia") || preference.equals("qualitat"))
                 nameOK = true;
-            else {
+            else
+            {
                 nameOK = false;
                 break;
             }
