@@ -14,4 +14,5 @@ public interface UserService
     public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException;
     public void deleteByEmail(String email);
     public void addProfileImage(String email, MultipartFile image) throws IOException;
+
 }

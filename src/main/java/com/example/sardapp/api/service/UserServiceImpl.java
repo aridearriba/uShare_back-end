@@ -56,5 +56,4 @@ public class UserServiceImpl implements UserService
         userDAO.addProfileImage(email, image);
     }
 
-
 }
