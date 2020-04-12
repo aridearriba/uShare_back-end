@@ -42,10 +42,12 @@ public class UserManage
         }
     }
 
-    public static List<User> findByFilters(List<String> events)
+    public static List<User> findByFilters(List<String> events, List<String> preferences)
     {
         List<User> users = new UserDAOImpl().findAll();
-        return getUsersByEvents(users, events);
+        users = getUsersByEvents(users, events);
+        users = getUsersByPreferences(users, preferences);
+        return users;
     }
 
     private static List<User> getUsersByEvents(List<User> users, List<String> events)
@@ -103,34 +105,34 @@ public class UserManage
 
         for (User user : users)
         {
-            if (preferences.contains("aplecs"))
+            if (preferences.contains("edat"))
             {
-                if (user.getAplecs()) add = true;
+                if (user.getEdat()) add = true;
                 else add = false;
             }
-            if (preferences.contains("ballades"))
+            if (preferences.contains("proximitat"))
             {
-                if (user.getBallades()) add = true;
+                if (user.getProximitat()) add = true;
                 else add = false;
             }
-            if (preferences.contains("concerts"))
+            if (preferences.contains("comptar"))
             {
-                if (user.getConcerts()) add = true;
+                if (user.getComptarRepartir()) add = true;
                 else add = false;
             }
-            if (preferences.contains("concursos"))
+            if (preferences.contains("interes"))
             {
-                if (user.getConcursos()) add = true;
+                if (user.getInteresActes()) add = true;
                 else add = false;
             }
-            if (preferences.contains("cursets"))
+            if (preferences.contains("experiencia"))
             {
-                if (user.getCursets()) add = true;
+                if (user.getExperienciaBallades()) add = true;
                 else add = false;
             }
-            if (preferences.contains("altres"))
+            if (preferences.contains("qualitat"))
             {
-                if (user.getAltres()) add = true;
+                if (user.getQualitatActe()) add = true;
                 else add = false;
             }
             if (add)
@@ -149,6 +151,22 @@ public class UserManage
         {
             if (event.equals("aplecs") || event.equals("ballades") || event.equals("concerts") ||
                     event.equals("concursos") || event.equals("cursets") || event.equals("altres"))
+                nameOK = true;
+            else {
+                nameOK = false;
+                break;
+            }
+        }
+        return nameOK;
+    }
+
+    public static boolean checkPreferencesNames(List<String> events)
+    {
+        Boolean nameOK = false;
+        for (String event: events)
+        {
+            if (event.equals("edat") || event.equals("proximitat") || event.equals("comptar") ||
+                    event.equals("interes") || event.equals("experiencia") || event.equals("qualitat"))
                 nameOK = true;
             else {
                 nameOK = false;
