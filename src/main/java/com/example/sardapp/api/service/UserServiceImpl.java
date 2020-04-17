@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void addProfileImage(String email, MultipartFile image) throws IOException
+    public void addProfileImage(String email, byte[] image) throws IOException
     {
         userDAO.addProfileImage(email, image);
     }

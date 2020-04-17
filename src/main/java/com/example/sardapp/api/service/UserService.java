@@ -13,6 +13,6 @@ public interface UserService
     public User findByEmail(String email);
     public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException;
     public void deleteByEmail(String email);
-    public void addProfileImage(String email, MultipartFile image) throws IOException;
+    public void addProfileImage(String email, byte[] image) throws IOException;
 
 }

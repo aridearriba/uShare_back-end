@@ -119,7 +119,7 @@ public class UserController
     /*  Modify a user's profile image specified by an email */
     @PutMapping(value = "/{email}/updateProfileImage", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modify user's profile image", notes = "Modify user's profile image by its email")
-    public ResponseEntity updateProfileImage(@PathVariable String email, @RequestBody MultipartFile image) throws IOException
+    public ResponseEntity updateProfileImage(@PathVariable String email, @RequestBody byte[] image) throws IOException
     {
         User user = userService.findByEmail(email);
         if(user == null)

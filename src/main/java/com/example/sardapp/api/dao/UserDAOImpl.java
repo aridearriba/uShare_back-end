@@ -50,13 +50,11 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     }
 
     @Override
-    public boolean addProfileImage(String email, MultipartFile image) throws IOException
+    public boolean addProfileImage(String email, byte[] image) throws IOException
     {
-        byte[] fileBytes = image.getBytes();
-
         // Update image in user
         User user = findByEmail(email);
-        user.setImage(fileBytes);
+        user.setImage(image);
         getSession().beginTransaction();
         getSession().saveOrUpdate(user);
         getSession().getTransaction().commit();
