@@ -7,10 +7,18 @@ import com.example.sardapp.entities.Acte;
 
 public interface ActeDAO {
 
-    public List<Acte> findAll();
-    public Acte findById(Integer id);
-    //public Acte findByTipus(String tipus);
-    public boolean save(Acte acte);
-    public boolean deleteById(Integer id);
+    List<Acte> findAll();
+    List<Acte> findAllByTipus(String tipus);
+    List<Acte> findAllByDia(String dia);
+    List<Acte> findAllCanceled();
+    List<Acte> findAllByComarca(String comarca);
+    List<Acte> findAllByTerritori(String territori);
+    List<Acte> findAllByPoblacioMitjana(String poblacioMitjana);
+
+    Acte findById(Integer id);
+
+    boolean save(Acte acte);
+    boolean deleteById(Integer id);
+    boolean existsById(Integer id);
 
 }

@@ -26,46 +26,123 @@ public class ActeController {
     /*  Method: GET
         Obtain some data from database
     */
-    /*  Get all actes*/
+    /*  Get all acts */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get all actes", notes = "Get all actes with their respective information")
-    public ResponseEntity findAll()
+    @ApiOperation(value = "Get all acts", notes = "Get all acts with their respective information")
+    public ResponseEntity findAllActs()
     {
-        List<Acte> actes = acteService.findAll();
-        if(actes == null)
+        List<Acte> acts = acteService.findAll();
+        if(acts == null)
         {
-            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Acte>>(actes, HttpStatus.OK);
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
     }
 
-    /* Get one user specified by an email*/
+    /* Get one act specified by an id*/
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get one acte", notes = "Get all information of the acte specified by id")
-    public ResponseEntity getActe(@PathVariable Integer id)
+    @ApiOperation(value = "Get one act", notes = "Get all information of the act specified by the id")
+    public ResponseEntity getAct(@PathVariable Integer id)
     {
-        Acte acte = acteService.findById(id);
+        Acte act = acteService.findById(id);
 
-        if(acte == null)
+        if(act == null)
         {
-            return new ResponseEntity("Acte not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Act not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(acte, HttpStatus.OK);
+        return new ResponseEntity(act, HttpStatus.OK);
+    }
+
+    /* Get all acts with a specific type */
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts with a specific type", notes = "Get all acts with the type specified by tipus")
+    public ResponseEntity findAllActsByTipus(@RequestParam String tipus) {
+        List<Acte> acts = acteService.findAllByTipus(tipus);
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
+    /* Get all acts with a specific date */
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts with a specific date", notes = "Get all acts with the date specified by dia")
+    public ResponseEntity findAllActsByDia(@RequestParam String dia)
+    {
+        List<Acte> acts = acteService.findAllByDia(dia);
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
+    /* Get all acts that has been cancelled */
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts that have been cancelled", notes = "Get all acts that have been cancelled")
+    public ResponseEntity findAllActsCancelled()
+    {
+        List<Acte> acts = acteService.findAllCancelled();
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
+    /* Get all acts with a specific region*/
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts that have a specific region", notes = "Get all acts with the region specified by comarca")
+    public ResponseEntity findAllActsByComarca(@RequestParam String comarca)
+    {
+        List<Acte> acts = acteService.findAllActsByComarca(comarca);
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
+    /* Get all acts with a specific territory */
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts that have a specific territory", notes = "Get all acts with the territory specified by territori")
+    public ResponseEntity findAllByTerritori(@RequestParam String territori)
+    {
+        List<Acte> acts = acteService.findAllActsByTerritori(territori);
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
+    /* Get all acts with a specific population */
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all acts that have a specific population", notes = "Get all acts with the population specified by poblacioMitjana")
+    public ResponseEntity findAllByPoblacioMitjana(@RequestParam String poblacioMitjana)
+    {
+        List<Acte> acts = acteService.findAllActsByPoblacioMitjana(poblacioMitjana);
+        if(acts == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
     }
 
     /*  Method: POST
         Create new entry into database
     */
-    /*  Create new user*/
+    /*  Create new act */
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create new acte", notes = "Create new acte providing its information")
-    public ResponseEntity addActe(@RequestBody Acte acte) throws InvalidKeySpecException, NoSuchAlgorithmException
+    @ApiOperation(value = "Create new act", notes = "Create new act providing its information")
+    public ResponseEntity addAct(@RequestBody Acte acte) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
         Acte acteFound = acteService.findById(acte.getId());
 
         if(acteFound != null)
         {
-            return new ResponseEntity("Acte already exists with this Id", HttpStatus.CONFLICT);
+            return new ResponseEntity("Act already exists with this Id", HttpStatus.CONFLICT);
         }
         //signUp(user.getEmail(), user.getPassword());
         acteService.save(acte);
@@ -84,8 +161,7 @@ public class ActeController {
     @ApiOperation(value = "Delete an acte", notes = "Delete an acte by its id")
     public ResponseEntity deleteActe(@PathVariable Integer id)
     {
-        Acte acte = acteService.findById(id);
-        if (acte == null)
+        if (!acteService.existsById(id))
         {
             return new ResponseEntity("Acte not found", HttpStatus.NOT_FOUND);
         }

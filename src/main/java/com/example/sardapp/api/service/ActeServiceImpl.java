@@ -13,23 +13,66 @@ public class ActeServiceImpl implements ActeService {
 
     @Override
     public List<Acte> findAll() {
-        List<Acte> listActes = acteDAO.findAll();
-        return listActes;
+        List<Acte> listActs = acteDAO.findAll();
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllByTipus(String tipus) {
+        List<Acte>listActs = acteDAO.findAllByTipus(tipus);
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllByDia(String dia) {
+        List<Acte>listActs = acteDAO.findAllByDia(dia);
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllCancelled() {
+        List<Acte>listActs = acteDAO.findAllCanceled();
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllActsByComarca(String comarca) {
+        List<Acte>listActs = acteDAO.findAllByComarca(comarca);
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllActsByTerritori(String territori) {
+        List<Acte>listActs = acteDAO.findAllByTerritori(territori);
+        return listActs;
+    }
+
+    @Override
+    public List<Acte> findAllActsByPoblacioMitjana(String poblacioMitjana) {
+        List<Acte>listActs = acteDAO.findAllByPoblacioMitjana(poblacioMitjana);
+        return listActs;
     }
 
     @Override
     public Acte findById(Integer id) {
-        Acte acte = acteDAO.findById(id);
-        return acte;
+        Acte act = acteDAO.findById(id);
+        return act;
     }
 
     @Override
-    public void save(Acte acte) {
-        acteDAO.save(acte);
+    public void save(Acte act) {
+        acteDAO.save(act);
     }
 
     @Override
     public void deleteById(Integer id) {
         acteDAO.deleteById(id);
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return acteDAO.existsById(id);
+    }
+
+
 }

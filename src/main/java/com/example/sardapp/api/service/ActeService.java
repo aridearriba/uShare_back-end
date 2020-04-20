@@ -6,10 +6,18 @@ import java.util.List;
 
 public interface ActeService {
 
-    public List<Acte> findAll();
-    public Acte findById(Integer id);
-    //public Acte findByTipus(String tipus);
-    public void save(Acte acte);
-    public void deleteById(Integer id);
+    List<Acte> findAll();
+    List<Acte> findAllByTipus(String tipus);
+    List<Acte> findAllByDia(String dia);
+    List<Acte> findAllCancelled();
+    List<Acte> findAllActsByComarca(String comarca);
+    List<Acte> findAllActsByTerritori(String territori);
+    List<Acte> findAllActsByPoblacioMitjana(String poblacioMitjana);
+
+    Acte findById(Integer id);
+
+    void save(Acte acte);
+    void deleteById(Integer id);
+    boolean existsById(Integer id);
 
 }

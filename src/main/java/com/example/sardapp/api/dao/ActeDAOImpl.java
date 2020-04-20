@@ -9,7 +9,37 @@ import java.util.List;
 public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     @Override
     public List<Acte> findAll() {
-        return getSession().createQuery("from Acte").list();
+        return getSession().createQuery("FROM Acte").list();
+    }
+
+    @Override
+    public List<Acte> findAllByTipus(String tipus) {
+        return getSession().createQuery("FROM Acte WHERE tipus ="+tipus).list();
+    }
+
+    @Override
+    public List<Acte> findAllByDia(String dia) {
+        return getSession().createQuery("FROM Acte WHERE dia ="+dia).list();
+    }
+
+    @Override
+    public List<Acte> findAllCanceled() {
+        return getSession().createQuery("FROM Acte WHERE anul IS NOT NULL").list();
+    }
+
+    @Override
+    public List<Acte> findAllByComarca(String comarca) {
+        return getSession().createQuery("FROM Acte WHERE comarca = "+comarca).list();
+    }
+
+    @Override
+    public List<Acte> findAllByTerritori(String territori) {
+        return getSession().createQuery("FROM Acte WHERE territori = "+territori).list();
+    }
+
+    @Override
+    public List<Acte> findAllByPoblacioMitjana(String poblacioMitjana) {
+        return getSession().createQuery("FROM Acte WHERE poblacioMitjana = "+poblacioMitjana).list();
     }
 
     @Override
@@ -27,13 +57,23 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
     @Override
     public boolean deleteById(Integer id) {
-        boolean result = false;
-        Acte acte = findById(id);
-        if(acte != null) {
+        boolean exists = existsById(id);
+        if(exists) {
+            Acte acte = findById(id);
             getSession().beginTransaction();
             getSession().delete(acte);
             getSession().getTransaction().commit();
-            result = getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
+            exists = getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
+        }
+        return exists;
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        boolean result = false;
+        Acte acte = findById(id);
+        if(acte != null) {
+            result = true;
         }
         return result;
     }

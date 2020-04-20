@@ -35,10 +35,10 @@ public class Acte {
     @Column(name = "latitudSiPlouAprox")        private float latitudSiPlouAprox;       //Opcional a mostrar
     @Column(name = "longitudSiPlouAprox")       private float longitudSiPlouAprox;      //Opcional a mostrar
 
-    @Column(name = "municipi")                  private String municipi;                //S'ha de mostrar
-    @Column(name = "poblacioCurta")             private String poblacioCurta;           //S'ha de mostrar
+    //@Column(name = "municipi")                  private String municipi;                //S'ha de mostrar
+    //@Column(name = "poblacioCurta")             private String poblacioCurta;           //S'ha de mostrar
     @Column(name = "poblacioMitjana")           private String poblacioMitjana;         //S'ha de mostrar
-    @Column(name = "poblacioAmpliada")          private String poblacioAmpliada;        //S'ha de mostrar
+    //@Column(name = "poblacioAmpliada")          private String poblacioAmpliada;        //S'ha de mostrar
 
     @Column(name = "comarca")                   private String comarca;                 //Opcional a mostrar
     @Column(name = "territori")                 private String territori;               //Opcional a mostrar
@@ -232,21 +232,21 @@ public class Acte {
         this.longitudSiPlouAprox = longitudSiPlouAprox;
     }
 
-    public String getMunicipi() {
+   /* public String getMunicipi() {
         return municipi;
-    }
+    } */
 
-    public void setMunicipi(String municipi) {
+    /* public void setMunicipi(String municipi) {
         this.municipi = municipi;
-    }
+    } */
 
-    public String getPoblacioCurta() {
+    /* public String getPoblacioCurta() {
         return poblacioCurta;
-    }
+    } */
 
-    public void setPoblacioCurta(String poblacioCurta) {
+    /* public void setPoblacioCurta(String poblacioCurta) {
         this.poblacioCurta = poblacioCurta;
-    }
+    } */
 
     public String getPoblacioMitjana() {
         return poblacioMitjana;
@@ -256,13 +256,13 @@ public class Acte {
         this.poblacioMitjana = poblacioMitjana;
     }
 
-    public String getPoblacioAmpliada() {
+    /* public String getPoblacioAmpliada() {
         return poblacioAmpliada;
-    }
+    } */
 
-    public void setPoblacioAmpliada(String poblacioAmpliada) {
+    /* public void setPoblacioAmpliada(String poblacioAmpliada) {
         this.poblacioAmpliada = poblacioAmpliada;
-    }
+    } */
 
     public String getComarca() {
         return comarca;
