@@ -38,7 +38,7 @@ public class UserController
         List<User> users = userService.findAll();
         if(users == null)
         {
-            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
