@@ -61,7 +61,7 @@ public class UserController
                             @RequestParam(required = false) String comarca)
     {
         if (!checkEventNames(events))
-            return new ResponseEntity("Some event name is wrong", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Some event name is wrong. It should be 'aplecs' or 'ballades' or 'concerts' or 'concursos' or 'cursets' or 'altres'.", HttpStatus.BAD_REQUEST);
 
         if (!checkPreferencesNames(habilitats))
             return new ResponseEntity("Some 'habilitat' name is wrong. It should be 'comptar' or 'competidor' or 'coblaCompeticio'", HttpStatus.BAD_REQUEST);
