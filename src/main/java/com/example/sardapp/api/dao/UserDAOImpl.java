@@ -1,15 +1,15 @@
 package com.example.sardapp.api.dao;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import com.example.sardapp.entities.User;
 import com.example.sardapp.api.session.AbstractSession;
+
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.stereotype.Repository;
 
-import com.example.sardapp.entities.User;
-import org.springframework.web.multipart.MultipartFile;
+import javax.persistence.criteria.*;
 
 @Repository
 public class UserDAOImpl extends AbstractSession implements UserDAO
@@ -24,6 +24,66 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     public User findByEmail(String email)
     {
         return getSession().get(User.class, email);
+    }
+
+    @Override
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca)
+    {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<User> query = cb.createQuery(User.class);
+        Root<User> user = query.from(User.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (comarca != null)
+        {
+            Path<String> comarcaPath = user.get("comarca");
+            predicates.add(cb.like(comarcaPath, comarca));
+        }
+        if (minDate != null && maxDate != null)
+        {
+            Path<Date> birthdayPath = user.get("birthday");
+            predicates.add(cb.between(birthdayPath, minDate, maxDate));
+        }
+
+        if (events != null)
+        {
+            Path<Boolean> aplecsPath = user.get("aplecs");
+            Path<Boolean> balladesPath = user.get("ballades");
+            Path<Boolean> concertsPath = user.get("concerts");
+            Path<Boolean> concursosPath = user.get("concursos");
+            Path<Boolean> cursetsPath = user.get("cursets");
+            Path<Boolean> altresPath = user.get("altres");
+
+            for (String event : events)
+            {
+                if (event.equals("aplecs")) predicates.add(cb.isTrue(aplecsPath));
+                else if (event.equals("ballades")) predicates.add(cb.isTrue(balladesPath));
+                else if (event.equals("concerts")) predicates.add(cb.isTrue(concertsPath));
+                else if (event.equals("concursos")) predicates.add(cb.isTrue(concursosPath));
+                else if (event.equals("cursets")) predicates.add(cb.isTrue(cursetsPath));
+                else if (event.equals("altres")) predicates.add(cb.isTrue(altresPath));
+            }
+        }
+
+        if (habilitats != null)
+        {
+            Path<Boolean> comptarPath = user.get("comptarRepartir");
+            Path<Boolean> competidorPath = user.get("competidor");
+            Path<Boolean> coblaCompeticioPath = user.get("coblaCompeticio");
+
+            for (String habilitat : habilitats)
+            {
+                if (habilitat.equals("comptar")) predicates.add(cb.isTrue(comptarPath));
+                else if (habilitat.equals("competidor")) predicates.add(cb.isTrue(competidorPath));
+                else if (habilitat.equals("coblaCompeticio")) predicates.add(cb.isTrue(coblaCompeticioPath));
+            }
+        }
+
+        query.select(user).where(predicates.toArray(new Predicate[predicates.size()]));
+
+        List<User> users = getSession().createQuery(query).list();
+        return users;
     }
 
     @Override

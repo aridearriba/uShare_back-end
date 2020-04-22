@@ -1,13 +1,7 @@
 package com.example.sardapp.api.controller;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-
-import com.example.sardapp.entities.User;
 import com.example.sardapp.api.service.UserService;
-
+import com.example.sardapp.entities.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import static com.example.sardapp.database.UserManage.*;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @RestController
 @Api(tags = "User")
@@ -60,20 +56,27 @@ public class UserController
     /* Get users by some filters*/
     @GetMapping(value = "/filters", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get users by filters", notes = "Get each user with parameter events checked")
-    public ResponseEntity getUsersbyFilters(@RequestParam(required = false) List<String> events, @RequestParam(required = false) List<String> preferences)
+    public ResponseEntity getUsersbyFilters(@RequestParam(required = false) List<String> habilitats, @RequestParam(required = false) List<String> events,
+                            @RequestParam(required = false) Integer edatMax, @RequestParam(required = false) Integer edatMin,
+                            @RequestParam(required = false) String comarca)
     {
-        if (checkEventNames(events) && checkPreferencesNames(preferences))
-        {
-            List<User> users = findByFilters(events, preferences);
-            if(users == null)
-            {
-                return new ResponseEntity("No users with this filters", HttpStatus.OK);
-            }
-            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-        }
-        return new ResponseEntity("Some filter name is wrong", HttpStatus.BAD_REQUEST);
-    }
+        if (!checkEventNames(events))
+            return new ResponseEntity("Some event name is wrong", HttpStatus.BAD_REQUEST);
 
+        if (!checkPreferencesNames(habilitats))
+            return new ResponseEntity("Some 'habilitat' name is wrong. It should be 'comptar' or 'competidor' or 'coblaCompeticio'", HttpStatus.BAD_REQUEST);
+
+        if ((edatMin != null && edatMax != null) && (edatMin < 1 || edatMax > 120 || edatMax < edatMin))
+            return new ResponseEntity("Wrong range, check 'edatMin' and 'edatMax' values", HttpStatus.BAD_REQUEST);
+
+        List<User> users = userService.findByFilters(events, habilitats, edatMin, edatMax, comarca);
+        if(users == null)
+        {
+            return new ResponseEntity("No users with this filters", HttpStatus.OK);
+        }
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+
+    }
 
     /*  Method: POST
         Create new entry into database
@@ -89,7 +92,6 @@ public class UserController
         {
             return new ResponseEntity("User already exists with this email", HttpStatus.CONFLICT);
         }
-        //signUp(user.getEmail(), user.getPassword());
         userService.save(user);
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
@@ -103,7 +105,7 @@ public class UserController
 
         if (userDB != null)
         {
-            if (login(email, password))
+            if (userService.login(email, password))
             {
                 return new ResponseEntity("User logged successfully", HttpStatus.OK);
             }
@@ -160,6 +162,51 @@ public class UserController
         }
         userService.deleteByEmail(email);
         return new ResponseEntity("User deleted successfully", HttpStatus.NO_CONTENT);
+    }
+
+
+
+
+
+
+    /*  ADDITIONAL FUNCTIONS
+        Additional functions for checking values
+    */
+    public static boolean checkEventNames(List<String> events)
+    {
+        Boolean nameOK = false;
+        if (events == null) return true;
+        for (String event: events)
+        {
+            if (event.equals("aplecs") || event.equals("ballades") || event.equals("concerts") ||
+                    event.equals("concursos") || event.equals("cursets") || event.equals("altres"))
+                nameOK = true;
+            else
+            {
+                nameOK = false;
+                break;
+            }
+        }
+        return nameOK;
+    }
+
+    public static boolean checkPreferencesNames(List<String> preferences)
+    {
+        Boolean nameOK = false;
+        System.out.println("CHECK");
+        if (preferences == null) return true;
+        for (String preference: preferences)
+        {
+            if (preference.equals("competidor") || preference.equals("coblaCompeticio")
+                    || preference.equals("comptar"))
+                nameOK = true;
+            else
+            {
+                nameOK = false;
+                break;
+            }
+        }
+        return nameOK;
     }
 
 }

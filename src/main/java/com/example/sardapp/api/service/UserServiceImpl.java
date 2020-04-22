@@ -3,10 +3,17 @@ package com.example.sardapp.api.service;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.example.sardapp.api.dao.UserDAOImpl;
 import com.ja.security.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.example.sardapp.entities.User;
@@ -34,6 +41,33 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca)
+    {
+        Date minDate = null;
+        Date maxDate = null;
+
+        if (edatMin != null && edatMax != null)
+        {
+            Date currentDate = new Date();
+            Calendar cal = Calendar.getInstance();
+
+            int currentYear = cal.get(Calendar.YEAR);
+            int currentMonth = cal.get(Calendar.MONTH);
+            int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+            int minYear = currentYear - edatMax;
+            int maxYear = currentYear - edatMin;
+
+            minDate = new GregorianCalendar(minYear, currentMonth, currentDay).getTime();
+            maxDate = new GregorianCalendar(maxYear, currentMonth, currentDay).getTime();
+        }
+
+        List<User> users = userDAO.findByFilters(events, habilitats, minDate, maxDate, comarca);
+
+        return users;
+    }
+
+    @Override
     public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
         // Convert password to hash and set it
@@ -54,6 +88,17 @@ public class UserServiceImpl implements UserService
     public void addProfileImage(String email, byte[] image) throws IOException
     {
         userDAO.addProfileImage(email, image);
+    }
+
+    public boolean login(String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException
+    {
+        User user = new UserDAOImpl().findByEmail(email);
+        try {
+            return new PasswordHash().validatePassword(password, user.getPassword());
+        }
+        catch (NullPointerException e){
+            return false;
+        }
     }
 
 }
