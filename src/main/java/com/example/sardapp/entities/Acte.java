@@ -11,7 +11,8 @@ public class Acte {
 
     @Id @Column(name = "id")                    private Integer id;                     //Opcional a mostrar
     @Column(name = "tipus")                     private String tipus;                   //S'ha de mostrar
-    @Column(name = "dia")                       private String dia;                     //S'ha de mostrar
+    @JsonFormat(pattern="dd-mm-yyyy")
+    @Column(name = "dia")                       private Date dia;                     //S'ha de mostrar
     @Column(name = "hora1")                     private String hora1;                   //S'ha de mostrar
     @Column(name = "hora2")                     private String hora2;                   //S'ha de mostrar
     @Column(name = "hora3")                     private String hora3;                   //S'ha de mostrar
@@ -72,11 +73,11 @@ public class Acte {
         this.tipus = tipus;
     }
 
-    public String getDia() {
+    public Date getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(Date dia) {
         this.dia = dia;
     }
 

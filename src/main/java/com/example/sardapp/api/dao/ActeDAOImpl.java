@@ -3,9 +3,12 @@ package com.example.sardapp.api.dao;
 import com.example.sardapp.api.session.AbstractSession;
 import com.example.sardapp.entities.Acte;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
+@Repository
 public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     @Override
     public List<Acte> findAll() {
@@ -18,7 +21,7 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     }
 
     @Override
-    public List<Acte> findAllByDia(String dia) {
+    public List<Acte> findAllByDia(Date dia) {
         return getSession().createQuery("FROM Acte WHERE dia ="+dia).list();
     }
 

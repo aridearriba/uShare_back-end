@@ -3,9 +3,12 @@ package com.example.sardapp.api.service;
 import com.example.sardapp.api.dao.ActeDAO;
 import com.example.sardapp.entities.Acte;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
+@Service
 public class ActeServiceImpl implements ActeService {
 
     @Autowired
@@ -24,7 +27,7 @@ public class ActeServiceImpl implements ActeService {
     }
 
     @Override
-    public List<Acte> findAllByDia(String dia) {
+    public List<Acte> findAllByDia(Date dia) {
         List<Acte>listActs = acteDAO.findAllByDia(dia);
         return listActs;
     }

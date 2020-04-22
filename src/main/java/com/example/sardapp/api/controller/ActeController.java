@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -54,7 +55,7 @@ public class ActeController {
     }
 
     /* Get all acts with a specific type */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/tipus", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts with a specific type", notes = "Get all acts with the type specified by tipus")
     public ResponseEntity findAllActsByTipus(@RequestParam String tipus) {
         List<Acte> acts = acteService.findAllByTipus(tipus);
@@ -66,9 +67,9 @@ public class ActeController {
     }
 
     /* Get all acts with a specific date */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/dia", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts with a specific date", notes = "Get all acts with the date specified by dia")
-    public ResponseEntity findAllActsByDia(@RequestParam String dia)
+    public ResponseEntity findAllActsByDia(@RequestParam Date dia)
     {
         List<Acte> acts = acteService.findAllByDia(dia);
         if(acts == null)
@@ -79,7 +80,7 @@ public class ActeController {
     }
 
     /* Get all acts that has been cancelled */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/cancelat", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts that have been cancelled", notes = "Get all acts that have been cancelled")
     public ResponseEntity findAllActsCancelled()
     {
@@ -92,7 +93,7 @@ public class ActeController {
     }
 
     /* Get all acts with a specific region*/
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/comarca", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts that have a specific region", notes = "Get all acts with the region specified by comarca")
     public ResponseEntity findAllActsByComarca(@RequestParam String comarca)
     {
@@ -105,7 +106,7 @@ public class ActeController {
     }
 
     /* Get all acts with a specific territory */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/territori", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts that have a specific territory", notes = "Get all acts with the territory specified by territori")
     public ResponseEntity findAllByTerritori(@RequestParam String territori)
     {
@@ -118,7 +119,7 @@ public class ActeController {
     }
 
     /* Get all acts with a specific population */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/poblacio", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all acts that have a specific population", notes = "Get all acts with the population specified by poblacioMitjana")
     public ResponseEntity findAllByPoblacioMitjana(@RequestParam String poblacioMitjana)
     {
