@@ -17,12 +17,12 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
     @Override
     public List<Acte> findAllByTipus(String tipus) {
-        return getSession().createQuery("FROM Acte WHERE tipus ="+tipus).list();
+        return getSession().createQuery("FROM Acte WHERE tipus = '"+tipus+"'").list();
     }
 
     @Override
     public List<Acte> findAllByDia(Date dia) {
-        return getSession().createQuery("FROM Acte WHERE dia ="+dia).list();
+        return getSession().createQuery("FROM Acte WHERE dia = '"+dia+"'").list();
     }
 
     @Override
@@ -32,17 +32,17 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
     @Override
     public List<Acte> findAllByComarca(String comarca) {
-        return getSession().createQuery("FROM Acte WHERE comarca = "+comarca).list();
+        return getSession().createQuery("FROM Acte WHERE comarca = '"+comarca+"'").list();
     }
 
     @Override
     public List<Acte> findAllByTerritori(String territori) {
-        return getSession().createQuery("FROM Acte WHERE territori = "+territori).list();
+        return getSession().createQuery("FROM Acte WHERE territori = "+territori+"'").list();
     }
 
     @Override
     public List<Acte> findAllByPoblacioMitjana(String poblacioMitjana) {
-        return getSession().createQuery("FROM Acte WHERE poblacioMitjana = "+poblacioMitjana).list();
+        return getSession().createQuery("FROM Acte WHERE poblacioMitjana = "+poblacioMitjana+"'").list();
     }
 
     @Override
