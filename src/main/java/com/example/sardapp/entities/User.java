@@ -13,6 +13,7 @@ public class User
     @Column(name = "password")              private String password;
 
     @Column(name = "profileImage")          private byte[] image;
+    @Column(name = "imageType")             private String imageType;
     @Column(name = "name")                  private String name;
     @Column(name = "surname")               private String surname;
     @Column(name = "description")           private String description;
@@ -20,6 +21,7 @@ public class User
     @JsonFormat(pattern="yyyy-mm-dd")
     @Column(name = "birthday")              private Date birthday;
     @Column(name = "vehicle")               private Boolean vehicle;
+    @Column(name = "comarca")               private String comarca;
 
     @Column(name = "aplecs")                private Boolean aplecs;
     @Column(name = "ballades")              private Boolean ballades;
@@ -28,12 +30,9 @@ public class User
     @Column(name = "cursets")               private Boolean cursets;
     @Column(name = "altres")                private Boolean altres;
 
-    @Column(name = "edat")                  private Boolean edat;
-    @Column(name = "proximitat")            private Boolean proximitat;
     @Column(name = "comptarRepartir")       private Boolean comptarRepartir;
-    @Column(name = "interesActes")          private Boolean interesActes;
-    @Column(name = "experienciaBallades")   private Boolean experienciaBallades;
-    @Column(name = "qualitatActe")          private Boolean qualitatActe;
+    @Column(name = "competidor")            private Boolean competidor;
+    @Column(name = "coblaCompeticio")       private Boolean coblaCompeticio;
 
     public User() {}
 
@@ -65,6 +64,16 @@ public class User
     public void setImage(byte[] image)
     {
         this.image = image;
+    }
+
+    public String getImageType()
+    {
+        return imageType;
+    }
+
+    public void setImageType(String imageType)
+    {
+        this.imageType = imageType;
     }
 
     public String getName()
@@ -127,6 +136,16 @@ public class User
         this.vehicle = vehicle;
     }
 
+    public String getComarca()
+    {
+        return comarca;
+    }
+
+    public void setComarca(String comarca)
+    {
+        this.comarca = comarca;
+    }
+
     public Boolean getAplecs()
     {
         return aplecs;
@@ -187,26 +206,6 @@ public class User
         this.altres = altres;
     }
 
-    public Boolean getEdat()
-    {
-        return edat;
-    }
-
-    public void setEdat(Boolean edat)
-    {
-        this.edat = edat;
-    }
-
-    public Boolean getProximitat()
-    {
-        return proximitat;
-    }
-
-    public void setProximitat(Boolean proximitat)
-    {
-        this.proximitat = proximitat;
-    }
-
     public Boolean getComptarRepartir()
     {
         return comptarRepartir;
@@ -217,33 +216,23 @@ public class User
         this.comptarRepartir = comptarRepartir;
     }
 
-    public Boolean getInteresActes()
+    public Boolean getCompetidor()
     {
-        return interesActes;
+        return competidor;
     }
 
-    public void setInteresActes(Boolean interesActes)
+    public void setCompetidor(Boolean competidor)
     {
-        this.interesActes = interesActes;
+        this.competidor = competidor;
     }
 
-    public Boolean getExperienciaBallades()
+    public Boolean getCoblaCompeticio()
     {
-        return experienciaBallades;
+        return coblaCompeticio;
     }
 
-    public void setExperienciaBallades(Boolean experienciaBallades)
+    public void setCoblaCompeticio(Boolean coblaCompeticio)
     {
-        this.experienciaBallades = experienciaBallades;
-    }
-
-    public Boolean getQualitatActe()
-    {
-        return qualitatActe;
-    }
-
-    public void setQualitatActe(Boolean qualitatActe)
-    {
-        this.qualitatActe = qualitatActe;
+        this.coblaCompeticio = coblaCompeticio;
     }
 }
