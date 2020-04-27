@@ -53,7 +53,7 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
             predicates.add(cb.like(acts.get("hora3"), hora));
         }
 
-        if (anul)
+        if (anul != null)
         {
             predicates.add(cb.isNotNull(acts.get("anul")));
         }

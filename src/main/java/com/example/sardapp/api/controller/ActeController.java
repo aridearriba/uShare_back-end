@@ -47,12 +47,12 @@ public class ActeController {
                                              @RequestParam(required = false) Date dia, @RequestParam(required = false) String hora,
                                              @RequestParam(required = false) Boolean Anul, @RequestParam(required = false) List<String> comarca,
                                              @RequestParam(required = false) List<String> territori, @RequestParam(required = false) List<String> cobla,
-                                             @RequestParam(required = false) List<String> poblcioMitjana)
+                                             @RequestParam(required = false) List<String> poblacioMitjana)
     {
         if (!checkTipusNames(tipus))
             return new ResponseEntity("Some type name is wrong. It should be 'Aplec' or 'Ballada' or 'Concert' or 'Concurs' or 'Curset' or 'Diversos (altres actes)'.", HttpStatus.BAD_REQUEST);
 
-        List<Acte> acts = acteService.findByFilters(tipus, diaConcret, dia, hora, Anul, comarca, territori, cobla, poblcioMitjana);
+        List<Acte> acts = acteService.findByFilters(tipus, diaConcret, dia, hora, Anul, comarca, territori, cobla, poblacioMitjana);
         if(acts == null)
         {
             return new ResponseEntity("No users with this filters", HttpStatus.OK);
