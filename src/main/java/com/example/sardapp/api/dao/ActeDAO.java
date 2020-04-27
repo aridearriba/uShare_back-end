@@ -9,6 +9,9 @@ import com.example.sardapp.entities.Acte;
 public interface ActeDAO {
 
     List<Acte> findAll();
+    List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia, String hora, Boolean anul,
+                             List<String> comarca, List<String> territori, List<String> cobla,
+                             List<String> poblacioMitjana);
     List<Acte> findAllByTipus(String tipus);
     List<Acte> findAllByDia(Date dia);
     List<Acte> findAllCanceled();
@@ -22,4 +25,4 @@ public interface ActeDAO {
     boolean deleteById(Integer id);
     boolean existsById(Integer id);
 
-}
+    }

@@ -40,6 +40,26 @@ public class ActeController {
         return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
     }
 
+    /* Get all acts with a multifilter */
+    @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get acts by some filters", notes = "Get all acts that fulfill the filters")
+    public ResponseEntity findActsByFilters (@RequestParam(required = false) List<String> tipus, @RequestParam(required = false) Boolean diaConcret,
+                                             @RequestParam(required = false) Date dia, @RequestParam(required = false) String hora,
+                                             @RequestParam(required = false) Boolean Anul, @RequestParam(required = false) List<String> comarca,
+                                             @RequestParam(required = false) List<String> territori, @RequestParam(required = false) List<String> cobla,
+                                             @RequestParam(required = false) List<String> poblcioMitjana)
+    {
+        if (!checkTipusNames(tipus))
+            return new ResponseEntity("Some type name is wrong. It should be 'Aplec' or 'Ballada' or 'Concert' or 'Concurs' or 'Curset' or 'Diversos (altres actes)'.", HttpStatus.BAD_REQUEST);
+
+        List<Acte> acts = acteService.findByFilters(tipus, diaConcret, dia, hora, Anul, comarca, territori, cobla, poblcioMitjana);
+        if(acts == null)
+        {
+            return new ResponseEntity("No users with this filters", HttpStatus.OK);
+        }
+        return new ResponseEntity<List<Acte>>(acts, HttpStatus.OK);
+    }
+
     /* Get one act specified by an id*/
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get one act", notes = "Get all information of the act specified by the id")
@@ -168,5 +188,26 @@ public class ActeController {
         }
         acteService.deleteById(id);
         return new ResponseEntity("Acte deleted successfully", HttpStatus.NO_CONTENT);
+    }
+
+    /*  ADDITIONAL FUNCTIONS
+        Additional functions for checking values
+    */
+    public static boolean checkTipusNames(List<String> tipus)
+    {
+        Boolean nameOK = false;
+        if (tipus == null) return true;
+        for (String type: tipus)
+        {
+            if (type.equals("Aplec") || type.equals("Ballada") || type.equals("Concert") ||
+                    type.equals("Concurs") || type.equals("Curset") || type.equals("Diversos (altres actes)"))
+                nameOK = true;
+            else
+            {
+                nameOK = false;
+                break;
+            }
+        }
+        return nameOK;
     }
 }
