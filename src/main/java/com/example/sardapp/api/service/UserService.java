@@ -16,6 +16,7 @@ public interface UserService
     public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca);
     public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException;
     public void deleteByEmail(String email);
+    public User editUser(String email, User user);
     public void addProfileImage(String email, byte[] image) throws IOException;
     public boolean login(String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException;
 
