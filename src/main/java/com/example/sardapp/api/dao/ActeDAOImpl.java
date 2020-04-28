@@ -18,6 +18,11 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     }
 
     @Override
+    public Acte findById(Integer id) {
+        return getSession().get(Acte.class, id);
+    }
+
+    @Override
     public List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia, String hora, Boolean anul,
                                     List<String> comarca, List<String> territori, List<String> cobla, List<String> poblacioMitjana) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
@@ -55,7 +60,9 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (anul != null)
         {
-            predicates.add(cb.isNotNull(acts.get("anul")));
+            String resposta = "Suspès";
+            if (anul) predicates.add(cb.like(acts.get("anul"), resposta));
+            else predicates.add(cb.notLike(acts.get("anul"), resposta));
         }
 
         if (comarca != null)
@@ -130,11 +137,6 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     @Override
     public List<Acte> findAllByPoblacioMitjana(String poblacioMitjana) {
         return getSession().createQuery("FROM Acte WHERE poblacioMitjana = "+poblacioMitjana+"'").list();
-    }
-
-    @Override
-    public Acte findById(Integer id) {
-        return getSession().get(Acte.class, id);
     }
 
     @Override
