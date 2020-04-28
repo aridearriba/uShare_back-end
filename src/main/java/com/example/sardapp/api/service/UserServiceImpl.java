@@ -85,6 +85,13 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public User editUser(String email, User user)
+    {
+        User updatedUser = userDAO.editUser(email, user);
+        return updatedUser;
+    }
+
+    @Override
     public void addProfileImage(String email, byte[] image) throws IOException
     {
         userDAO.addProfileImage(email, image);

@@ -118,6 +118,24 @@ public class UserController
     /*  Method: PUT
         Modify an entry from database
     */
+    /*  Modify a user's information */
+    @PutMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Modify user's information", notes = "Modify any field of a user by its email")
+    public ResponseEntity editUser(@PathVariable String email, @RequestBody User user) throws IOException
+    {
+        User oldUser = userService.findByEmail(email);
+        if(oldUser == null)
+        {
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+        }
+        if(user.getEmail() != null)
+        {
+            return new ResponseEntity("Cannot change user's email", HttpStatus.BAD_REQUEST);
+        }
+        User userUpdated = userService.editUser(email, user);
+        return new ResponseEntity(userUpdated, HttpStatus.CREATED);
+    }
+
     /*  Modify a user's profile image specified by an email */
     @PutMapping(value = "/{email}/updateProfileImage", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modify user's profile image", notes = "Modify user's profile image by its email")
@@ -147,6 +165,7 @@ public class UserController
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
+
     /*  Method: DELETE
         Delete an entry from database
     */
@@ -163,7 +182,6 @@ public class UserController
         userService.deleteByEmail(email);
         return new ResponseEntity("User deleted successfully", HttpStatus.NO_CONTENT);
     }
-
 
 
 

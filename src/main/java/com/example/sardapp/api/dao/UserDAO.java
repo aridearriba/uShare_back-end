@@ -13,6 +13,7 @@ public interface UserDAO
     public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca);
     public boolean save(User user);
     public boolean deleteByEmail(String email);
+    public User editUser(String email, User user);
     public boolean addProfileImage(String email, byte[] image) throws IOException;
 
 }
