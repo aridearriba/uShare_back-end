@@ -12,8 +12,8 @@ public class User
     @Id @Column(name = "email")             private String email;
     @Column(name = "password")              private String password;
 
-    @Column(name = "profileImage")
-    private byte[] image;
+    @Column(name = "public")                private Boolean publicProfile;
+    @Column(name = "profileImage")          private byte[] image;
     @Column(name = "imageType")             private String imageType;
     @Column(name = "name")                  private String name;
     @Column(name = "surname")               private String surname;
@@ -55,6 +55,16 @@ public class User
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public Boolean getPublicProfile()
+    {
+        return publicProfile;
+    }
+
+    public void setPublicProfile(Boolean publicProfile)
+    {
+        this.publicProfile = publicProfile;
     }
 
     public byte[] getImage()
