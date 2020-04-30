@@ -33,10 +33,12 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (tipus != null)
         {
+            Predicate acumuladorDeTipus = cb.like(acts.get("tipus"),tipus.get(0));
             for (String type : tipus)
             {
-                predicates.add(cb.like(acts.get("tipus"), type));
+                acumuladorDeTipus = cb.or(acumuladorDeTipus, cb.like(acts.get("tipus"), type));
             }
+            predicates.add(acumuladorDeTipus);
         }
 
         if (dia != null)
@@ -53,56 +55,59 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (hora != null)
         {
-            predicates.add(cb.like(acts.get("hora1"), hora));
-            predicates.add(cb.like(acts.get("hora2"), hora));
-            predicates.add(cb.like(acts.get("hora3"), hora));
+            predicates.add(cb.or(cb.like(acts.get("hora1"), hora), cb.like(acts.get("hora2"), hora), cb.like(acts.get("hora3"), hora)));
         }
 
         if (anul != null)
         {
-            String resposta = "Suspès";
-            if (anul) predicates.add(cb.like(acts.get("anul"), resposta));
-            else predicates.add(cb.notLike(acts.get("anul"), resposta));
+            if (anul){
+                predicates.add(cb.isNotNull(acts.get("anul")));
+            }
+            else {
+                predicates.add(cb.isNull(acts.get("anul")));
+            }
         }
 
         if (comarca != null)
         {
+            Predicate acumuladorDeComarques = cb.like(acts.get("comarca"), comarca.get(0));
             for (String region : comarca)
             {
-                predicates.add(cb.like(acts.get("comarca"), region));
+                acumuladorDeComarques = cb.or(acumuladorDeComarques, cb.like(acts.get("comarca"), region));
             }
+            predicates.add(acumuladorDeComarques);
         }
 
         if (territori != null)
         {
+            Predicate acumuladorDeTerritoris = cb.like(acts.get("territori"), territori.get(0));
             for (String territory : territori)
             {
-                predicates.add(cb.like(acts.get("territori"), territory));
+                acumuladorDeTerritoris = cb.or(acumuladorDeTerritoris, cb.like(acts.get("territori"), territory));
             }
+            predicates.add(acumuladorDeTerritoris);
         }
 
         if (cobla != null)
         {
             for (String cobles: cobla)
             {
-                predicates.add(cb.like(acts.get("cobla1"), cobles));
-                predicates.add(cb.like(acts.get("cobla2"), cobles));
-                predicates.add(cb.like(acts.get("cobla3"), cobles));
-                predicates.add(cb.like(acts.get("cobla4"), cobles));
-                predicates.add(cb.like(acts.get("cobla5"), cobles));
-                predicates.add(cb.like(acts.get("cobla6"), cobles));
-                predicates.add(cb.like(acts.get("cobla7"), cobles));
+                predicates.add(cb.or(cb.like(acts.get("cobla1"), cobles), cb.like(acts.get("cobla2"), cobles),
+                        cb.like(acts.get("cobla3"), cobles), cb.like(acts.get("cobla4"), cobles),
+                        cb.like(acts.get("cobla5"), cobles), cb.like(acts.get("cobla6"), cobles),
+                        cb.like(acts.get("cobla7"), cobles)));
             }
         }
 
         if (poblacioMitjana != null)
         {
+            Predicate acumuladorDePoblacions = cb.like(acts.get("poblacioMitjana"), poblacioMitjana.get(0));
             for (String population : poblacioMitjana)
             {
-                predicates.add(cb.like(acts.get("poblacioMitjana"), population));
+                acumuladorDePoblacions = cb.or(acumuladorDePoblacions, cb.like(acts.get("poblacioMitjana"), population));
             }
+            predicates.add(acumuladorDePoblacions);
         }
-
 
         query.select(acts).where(predicates.toArray(new Predicate[predicates.size()]));
         List<Acte> listActs = getSession().createQuery(query).list();
