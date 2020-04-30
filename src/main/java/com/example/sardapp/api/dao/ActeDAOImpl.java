@@ -33,10 +33,12 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (tipus != null)
         {
+            Predicate acumuladorDeTipus = cb.like(acts.get("tipus"),tipus.get(0));
             for (String type : tipus)
             {
-                predicates.add(cb.like(acts.get("tipus"), type));
+                acumuladorDeTipus = cb.or(acumuladorDeTipus, cb.like(acts.get("tipus"), type));
             }
+            predicates.add(acumuladorDeTipus);
         }
 
         if (dia != null)
@@ -68,18 +70,22 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (comarca != null)
         {
+            Predicate acumuladorDeComarques = cb.like(acts.get("comarca"), comarca.get(0));
             for (String region : comarca)
             {
-                predicates.add(cb.like(acts.get("comarca"), region));
+                acumuladorDeComarques = cb.or(acumuladorDeComarques, cb.like(acts.get("comarca"), region));
             }
+            predicates.add(acumuladorDeComarques);
         }
 
         if (territori != null)
         {
+            Predicate acumuladorDeTerritoris = cb.like(acts.get("territori"), territori.get(0));
             for (String territory : territori)
             {
-                predicates.add(cb.like(acts.get("territori"), territory));
+                acumuladorDeTerritoris = cb.or(acumuladorDeTerritoris, cb.like(acts.get("territori"), territory));
             }
+            predicates.add(acumuladorDeTerritoris);
         }
 
         if (cobla != null)
@@ -95,10 +101,12 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
 
         if (poblacioMitjana != null)
         {
+            Predicate acumuladorDePoblacions = cb.like(acts.get("poblacioMitjana"), poblacioMitjana.get(0));
             for (String population : poblacioMitjana)
             {
-                predicates.add(cb.like(acts.get("poblacioMitjana"), population));
+                acumuladorDePoblacions = cb.or(acumuladorDePoblacions, cb.like(acts.get("poblacioMitjana"), population));
             }
+            predicates.add(acumuladorDePoblacions);
         }
 
         query.select(acts).where(predicates.toArray(new Predicate[predicates.size()]));
