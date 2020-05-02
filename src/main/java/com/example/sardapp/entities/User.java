@@ -16,7 +16,6 @@ public class User
     @Column(name = "profileImage")          private byte[] image;
     @Column(name = "imageType")             private String imageType;
     @Column(name = "name")                  private String name;
-    @Column(name = "surname")               private String surname;
     @Column(name = "description")           private String description;
     @Column(name = "phoneNumber")           private Integer phoneNumber;
     @JsonFormat(pattern="yyyy-mm-dd")
@@ -95,16 +94,6 @@ public class User
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public String getSurname()
-    {
-        return surname;
-    }
-
-    public void setSurname(String surname)
-    {
-        this.surname = surname;
     }
 
     public String getDescription()
