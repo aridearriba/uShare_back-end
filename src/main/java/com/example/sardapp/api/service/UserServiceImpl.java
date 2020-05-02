@@ -13,12 +13,10 @@ import java.util.List;
 import com.example.sardapp.api.dao.UserDAOImpl;
 import com.ja.security.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.example.sardapp.entities.User;
 import com.example.sardapp.api.dao.UserDAO;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserServiceImpl implements UserService
@@ -97,9 +95,11 @@ public class UserServiceImpl implements UserService
         userDAO.addProfileImage(email, image);
     }
 
+    @Override
     public boolean login(String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
         User user = new UserDAOImpl().findByEmail(email);
+
         try {
             return new PasswordHash().validatePassword(password, user.getPassword());
         }
