@@ -153,16 +153,20 @@ public class UserController
     /*  Modify a user's password specified by an email */
     @PutMapping(value = "/{email}/updatePassword", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modify user's password", notes = "Modify user's password by its email")
-    public ResponseEntity updatePassword(@PathVariable String email, @RequestBody String password) throws InvalidKeySpecException, NoSuchAlgorithmException
+    public ResponseEntity updatePassword(@PathVariable String email, @RequestParam String newPassword, @RequestParam String oldPassword) throws InvalidKeySpecException, NoSuchAlgorithmException
     {
         User user = userService.findByEmail(email);
         if(user == null)
         {
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
-        user.setPassword(password);
+        if(!userService.login(email, oldPassword))
+        {
+            return new ResponseEntity("Wrong old password", HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(newPassword);
         userService.save(user);
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity("Password updated", HttpStatus.OK);
     }
 
 
