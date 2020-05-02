@@ -1,5 +1,6 @@
 package com.example.sardapp.api.controller;
 
+import com.example.sardapp.api.dto.getUserDTO;
 import com.example.sardapp.api.service.UserService;
 import com.example.sardapp.entities.User;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,7 @@ public class UserController
         {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        return new ResponseEntity<List<getUserDTO>>(listUsers(users), HttpStatus.OK);
     }
 
     /* Get one user specified by an email*/
@@ -50,7 +52,7 @@ public class UserController
         {
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity(new getUserDTO(user), HttpStatus.OK);
     }
 
     /* Get users by some filters*/
@@ -74,7 +76,7 @@ public class UserController
         {
             return new ResponseEntity("No users with this filters", HttpStatus.OK);
         }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        return new ResponseEntity<List<getUserDTO>>(listUsers(users), HttpStatus.OK);
 
     }
 
@@ -93,7 +95,7 @@ public class UserController
             return new ResponseEntity("User already exists with this email", HttpStatus.CONFLICT);
         }
         userService.save(user);
-        return new ResponseEntity(user, HttpStatus.CREATED);
+        return new ResponseEntity(new getUserDTO(user), HttpStatus.CREATED);
     }
 
     /* Log in user specified by its email and password*/
@@ -133,7 +135,7 @@ public class UserController
             return new ResponseEntity("Cannot change user's email", HttpStatus.BAD_REQUEST);
         }
         User userUpdated = userService.editUser(email, user);
-        return new ResponseEntity(userUpdated, HttpStatus.CREATED);
+        return new ResponseEntity(new getUserDTO(userUpdated), HttpStatus.CREATED);
     }
 
     /*  Modify a user's profile image specified by an email */
@@ -147,7 +149,7 @@ public class UserController
             return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
         }
         userService.addProfileImage(email, image);
-        return new ResponseEntity(user, HttpStatus.CREATED);
+        return new ResponseEntity(new getUserDTO(user), HttpStatus.CREATED);
     }
 
     /*  Modify a user's password specified by an email */
@@ -229,6 +231,18 @@ public class UserController
             }
         }
         return nameOK;
+    }
+
+    public static List<getUserDTO> listUsers(List<User> users)
+    {
+        List<getUserDTO> usersDTO = new ArrayList<>();
+
+        for (User u : users)
+        {
+            usersDTO.add(new getUserDTO(u));
+        }
+
+        return usersDTO;
     }
 
 }
