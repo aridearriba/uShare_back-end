@@ -20,7 +20,7 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     @Override
     public List<User> findAll()
     {
-        return getSession().createQuery("from User").list();
+        return getSession().createQuery("select u from User u where u.publicProfile = true").list();
     }
 
     @Override
@@ -37,6 +37,8 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
         Root<User> user = query.from(User.class);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(cb.isTrue(user.get("publicProfile")));
 
         if (comarca != null)
         {
