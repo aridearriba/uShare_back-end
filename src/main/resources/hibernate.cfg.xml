@@ -14,5 +14,6 @@
         <property name="hibernate.default_schema">public</property>
         <mapping class="com.example.sardapp.entities.User" />
         <mapping class="com.example.sardapp.entities.Acte" />
+        <mapping class="com.example.sardapp.entities.Assistent" />
     </session-factory>
 </hibernate-configuration>
