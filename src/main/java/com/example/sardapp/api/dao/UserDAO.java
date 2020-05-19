@@ -10,7 +10,7 @@ public interface UserDAO
 {
     public List<User> findAll();
     public User findByEmail(String email);
-    public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca);
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca, Boolean transport);
     public boolean save(User user);
     public boolean deleteByEmail(String email);
     public User editUser(String email, User user);

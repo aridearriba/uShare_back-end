@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca)
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca, Boolean transport)
     {
         Date minDate = null;
         Date maxDate = null;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService
             maxDate = new GregorianCalendar(maxYear, currentMonth, currentDay).getTime();
         }
 
-        List<User> users = userDAO.findByFilters(events, habilitats, minDate, maxDate, comarca);
+        List<User> users = userDAO.findByFilters(events, habilitats, minDate, maxDate, comarca, transport);
 
         return users;
     }

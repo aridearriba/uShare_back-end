@@ -30,7 +30,7 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
     }
 
     @Override
-    public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca)
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Date minDate, Date maxDate, String comarca, Boolean transport)
     {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
@@ -45,6 +45,13 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
             Path<String> comarcaPath = user.get("comarca");
             predicates.add(cb.like(comarcaPath, comarca));
         }
+
+        if (transport != null)
+        {
+            Path<Boolean> transportPath = user.get("vehicle");
+            predicates.add(cb.equal(transportPath, transport));
+        }
+
         if (minDate != null && maxDate != null)
         {
             Path<Date> birthdayPath = user.get("birthday");

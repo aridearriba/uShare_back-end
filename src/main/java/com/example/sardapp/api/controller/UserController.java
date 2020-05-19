@@ -60,7 +60,7 @@ public class UserController
     @ApiOperation(value = "Get users by filters", notes = "Get each user with parameter events checked")
     public ResponseEntity getUsersbyFilters(@RequestParam(required = false) List<String> habilitats, @RequestParam(required = false) List<String> events,
                             @RequestParam(required = false) Integer edatMax, @RequestParam(required = false) Integer edatMin,
-                            @RequestParam(required = false) String comarca)
+                            @RequestParam(required = false) String comarca, @RequestParam(required = false) Boolean transport)
     {
         if (!checkEventNames(events))
             return new ResponseEntity("Some event name is wrong. It should be 'aplecs' or 'ballades' or 'concerts' or 'concursos' or 'cursets' or 'altres'.", HttpStatus.BAD_REQUEST);
@@ -71,7 +71,10 @@ public class UserController
         if ((edatMin != null && edatMax != null) && (edatMin < 1 || edatMax > 120 || edatMax < edatMin))
             return new ResponseEntity("Wrong range, check 'edatMin' and 'edatMax' values", HttpStatus.BAD_REQUEST);
 
-        List<User> users = userService.findByFilters(events, habilitats, edatMin, edatMax, comarca);
+        if (edatMin == null) edatMin = 1;
+        if (edatMax == null) edatMax = 1000;
+
+        List<User> users = userService.findByFilters(events, habilitats, edatMin, edatMax, comarca, transport);
         if(users == null)
         {
             return new ResponseEntity("No users with this filters", HttpStatus.OK);

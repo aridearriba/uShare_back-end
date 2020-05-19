@@ -13,7 +13,7 @@ public interface UserService
 {
     public List<User> findAll();
     public User findByEmail(String email);
-    public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca);
+    public List<User> findByFilters(List<String> events, List<String> habilitats, Integer edatMin, Integer edatMax, String comarca, Boolean transport);
     public void save(User user) throws InvalidKeySpecException, NoSuchAlgorithmException;
     public void deleteByEmail(String email);
     public User editUser(String email, User user);
