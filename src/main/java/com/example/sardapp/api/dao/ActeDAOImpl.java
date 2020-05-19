@@ -23,7 +23,7 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
     }
 
     @Override
-    public List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia, String hora, Boolean anul,
+    public List<Acte> findByFilters(List<String> tipus, Date diaMinim, Date diaMaxim, String hora, Boolean anul,
                                     List<String> comarca, List<String> territori, List<String> cobla, List<String> poblacioMitjana) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
         CriteriaQuery<Acte> query = cb.createQuery(Acte.class);
@@ -41,15 +41,16 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
             predicates.add(acumuladorDeTipus);
         }
 
-        if (dia != null)
+        if (diaMinim != null || diaMaxim !=null)
         {
-            if (diaConcret)
-            {
-                predicates.add(cb.equal(acts.get("dia"), dia));
+            if(diaMaxim == null && diaMinim != null) {
+                predicates.add(cb.equal(acts.get("dia"),diaMinim));
             }
-            else
-            {
-                predicates.add(cb.greaterThanOrEqualTo(acts.get("dia"), dia));
+            else if (diaMaxim != null && diaMinim == null) {
+                predicates.add(cb.equal(acts.get("dia"),diaMaxim));
+            }
+            else {
+                predicates.add(cb.between(acts.get("dia"), diaMinim, diaMaxim));
             }
         }
 

@@ -9,7 +9,7 @@ import com.example.sardapp.entities.Acte;
 public interface ActeDAO {
 
     List<Acte> findAll();
-    List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia, String hora, Boolean anul,
+    List<Acte> findByFilters(List<String> tipus, Date diaMinim, Date diaMaxim, String hora, Boolean anul,
                              List<String> comarca, List<String> territori, List<String> cobla,
                              List<String> poblacioMitjana);
     List<Acte> findAllByTipus(String tipus);

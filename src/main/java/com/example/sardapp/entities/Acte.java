@@ -11,7 +11,6 @@ public class Acte {
 
     @Id @Column(name = "id")                    private Integer id;                     //Opcional a mostrar
     @Column(name = "tipus")                     private String tipus;                   //S'ha de mostrar
-    @JsonFormat(pattern="yyyy-mm-dd")
     @Column(name = "dia")                       private Date dia;                     //S'ha de mostrar
     @Column(name = "hora1")                     private String hora1;                   //S'ha de mostrar
     @Column(name = "hora2")                     private String hora2;                   //S'ha de mostrar
