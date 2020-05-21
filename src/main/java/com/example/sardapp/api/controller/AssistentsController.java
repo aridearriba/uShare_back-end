@@ -46,6 +46,17 @@ public class AssistentsController
         return new ResponseEntity<List<User>>(assistants, HttpStatus.OK);
     }
 
+    /*  Check assistance*/
+    @GetMapping(value = "{id}/assistants/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Check assistance", notes = "Check if user is an assistant of an act")
+    public ResponseEntity checkAssistance(@PathVariable Integer id, @PathVariable String email)
+    {;
+        Assistent assistent = assistentService.findById(id, email);
+
+        if(assistent != null) return new ResponseEntity(true, HttpStatus.FOUND);
+        return new ResponseEntity(false, HttpStatus.NOT_FOUND);
+    }
+
     /*  Method: POST
        Create new entry into database
    */
