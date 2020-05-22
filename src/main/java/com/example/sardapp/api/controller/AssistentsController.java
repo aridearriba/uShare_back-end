@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Assistent")
-@RequestMapping("/api/acte")
+@RequestMapping("/api/actes")
 public class AssistentsController
 {
     @Autowired
