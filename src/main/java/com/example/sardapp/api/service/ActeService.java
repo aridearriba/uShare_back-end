@@ -8,7 +8,7 @@ import java.util.List;
 public interface ActeService {
 
     List<Acte> findAll();
-    List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia,
+    List<Acte> findByFilters(List<String> tipus, Date diaMinim, Date diaMaxim,
                              String hora, Boolean anul, List<String> comarca,
                              List<String> territori, List<String> cobla, List<String> poblcioMitjana);
     List<Acte> findAllByTipus(String tipus);

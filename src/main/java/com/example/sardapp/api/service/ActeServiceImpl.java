@@ -21,8 +21,8 @@ public class ActeServiceImpl implements ActeService {
     }
 
     @Override
-    public List<Acte> findByFilters(List<String> tipus, Boolean diaConcret, Date dia, String hora, Boolean anul, List<String> comarca, List<String> territori, List<String> cobla, List<String> poblcioMitjana) {
-        List<Acte> listActs = acteDAO.findByFilters(tipus, diaConcret, dia, hora, anul, comarca, territori, cobla, poblcioMitjana);
+    public List<Acte> findByFilters(List<String> tipus, Date diaMinim, Date diaMaxim, String hora, Boolean anul, List<String> comarca, List<String> territori, List<String> cobla, List<String> poblcioMitjana) {
+        List<Acte> listActs = acteDAO.findByFilters(tipus, diaMinim, diaMaxim, hora, anul, comarca, territori, cobla, poblcioMitjana);
         return listActs;
     }
 

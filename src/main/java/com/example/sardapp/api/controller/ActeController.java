@@ -43,8 +43,8 @@ public class ActeController {
     /* Get all acts with a multifilter */
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get acts by some filters", notes = "Get all acts that fulfill the filters")
-    public ResponseEntity findActsByFilters (@RequestParam(required = false) List<String> tipus, @RequestParam(required = false) Boolean diaConcret,
-                                             @RequestParam(required = false) Date dia, @RequestParam(required = false) String hora,
+    public ResponseEntity findActsByFilters (@RequestParam(required = false) List<String> tipus, @RequestParam(required = false) Date diaMinim,
+                                             @RequestParam(required = false) Date diaMaxim, @RequestParam(required = false) String hora,
                                              @RequestParam(required = false) Boolean Anul, @RequestParam(required = false) List<String> comarca,
                                              @RequestParam(required = false) List<String> territori, @RequestParam(required = false) List<String> cobla,
                                              @RequestParam(required = false) List<String> poblacioMitjana)
@@ -52,7 +52,7 @@ public class ActeController {
         if (!checkTipusNames(tipus))
             return new ResponseEntity("Some type name is wrong. It should be 'Aplec' or 'Ballada' or 'Concert' or 'Concurs' or 'Curset' or 'Diversos (altres actes)'.", HttpStatus.BAD_REQUEST);
 
-        List<Acte> acts = acteService.findByFilters(tipus, diaConcret, dia, hora, Anul, comarca, territori, cobla, poblacioMitjana);
+        List<Acte> acts = acteService.findByFilters(tipus, diaMinim, diaMaxim, hora, Anul, comarca, territori, cobla, poblacioMitjana);
         if(acts == null)
         {
             return new ResponseEntity("No users with this filters", HttpStatus.OK);
