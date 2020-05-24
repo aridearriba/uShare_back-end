@@ -44,10 +44,10 @@ public class ActeDAOImpl extends AbstractSession implements ActeDAO {
         if (diaMinim != null || diaMaxim !=null)
         {
             if(diaMaxim == null && diaMinim != null) {
-                predicates.add(cb.equal(acts.get("dia"),diaMinim));
+                predicates.add(cb.greaterThanOrEqualTo(acts.get("dia"),diaMinim));
             }
             else if (diaMaxim != null && diaMinim == null) {
-                predicates.add(cb.equal(acts.get("dia"),diaMaxim));
+                predicates.add(cb.lessThanOrEqualTo(acts.get("dia"),diaMaxim));
             }
             else {
                 predicates.add(cb.between(acts.get("dia"), diaMinim, diaMaxim));
