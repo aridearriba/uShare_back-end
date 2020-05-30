@@ -1,11 +1,14 @@
 package com.example.sardapp.api.controller;
 
 import com.example.sardapp.api.dto.getUserDTO;
+import com.example.sardapp.api.service.AssistentService;
 import com.example.sardapp.api.service.UserService;
+import com.example.sardapp.entities.Acte;
 import com.example.sardapp.entities.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,9 @@ public class UserController
 {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AssistentService assistentService;
 
     /*  Method: GET
         Obtain some data from database
@@ -58,7 +64,7 @@ public class UserController
     /* Get users by some filters*/
     @GetMapping(value = "/filters", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get users by filters", notes = "Get each user with parameter events checked")
-    public ResponseEntity getUsersbyFilters(@RequestParam(required = false) List<String> habilitats, @RequestParam(required = false) List<String> events,
+    public ResponseEntity getUsersByFilters(@RequestParam(required = false) List<String> habilitats, @RequestParam(required = false) List<String> events,
                             @RequestParam(required = false) Integer edatMax, @RequestParam(required = false) Integer edatMin,
                             @RequestParam(required = false) String comarca, @RequestParam(required = false) Boolean transport)
     {
@@ -80,7 +86,45 @@ public class UserController
             return new ResponseEntity("No users with this filters", HttpStatus.OK);
         }
         return new ResponseEntity<List<getUserDTO>>(listUsers(users), HttpStatus.OK);
+    }
 
+    /*  Get all user acts*/
+    @GetMapping(value = "/{email}/acts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all user acts", notes = "Get all user acts")
+    public ResponseEntity getUserActs(@PathVariable String email)
+    {
+        List<Acte> actes = assistentService.getUserActs(email);
+        if(actes == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(actes, HttpStatus.OK);
+    }
+
+    /*  Get past user acts*/
+    @GetMapping(value = "/{email}/acts/past", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all user acts", notes = "Get all user acts")
+    public ResponseEntity getPastUserActs(@PathVariable String email)
+    {
+        List<Acte> actes = assistentService.getPastUserActs(email);
+        if(actes == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(actes, HttpStatus.OK);
+    }
+
+    /*  Get next user acts*/
+    @GetMapping(value = "/{email}/acts/next", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all user acts", notes = "Get all user acts")
+    public ResponseEntity getNextUserActs(@PathVariable String email)
+    {
+        List<Acte> actes = assistentService.getNextUserActs(email);
+        if(actes == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Acte>>(actes, HttpStatus.OK);
     }
 
     /*  Method: POST
