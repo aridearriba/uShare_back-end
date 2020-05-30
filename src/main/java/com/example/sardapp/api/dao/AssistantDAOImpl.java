@@ -1,6 +1,7 @@
 package com.example.sardapp.api.dao;
 
 import com.example.sardapp.api.session.AbstractSession;
+import com.example.sardapp.entities.Acte;
 import com.example.sardapp.entities.Assistent;
 import com.example.sardapp.entities.AssistentId;
 import com.example.sardapp.entities.User;
@@ -8,10 +9,14 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import java.io.IOException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Repository
@@ -51,5 +56,30 @@ public class AssistantDAOImpl extends AbstractSession implements AssistantDAO
             result = getSession().getTransaction().getStatus() == TransactionStatus.COMMITTED;
         }
         return result;
+    }
+
+    @Override
+    public List<Acte> getUserActs(String email)
+    {
+        return getSession().createQuery("select act from Acte act, Assistent a where a.id.usuari = '" + email + "' and a.id.acte = act.id").list();
+    }
+
+    @Override
+    public List<Acte> getPastUserActs(String email)
+    {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        return getSession().createQuery("select a.id from Acte act, Assistent a where a.id.usuari = '" + email + "' and a.id.acte = act.id and act.dia < '" + date.format(dateFormatter) + "'").list();
+    }
+
+    @Override
+    public List<Acte> getNextUserActs(String email)
+    {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        return getSession().createQuery("select act from Acte act, Assistent a where a.id.usuari = '" + email + "' and a.id.acte = act.id and act.dia >= '" + date.format(dateFormatter) + "'").list();
     }
 }
