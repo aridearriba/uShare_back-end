@@ -103,7 +103,7 @@ public class UserController
 
     /*  Get past user acts*/
     @GetMapping(value = "/{email}/acts/past", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get all user acts", notes = "Get all user acts")
+    @ApiOperation(value = "Get past user acts", notes = "Get past user acts")
     public ResponseEntity getPastUserActs(@PathVariable String email)
     {
         List<Acte> actes = assistentService.getPastUserActs(email);
@@ -116,7 +116,7 @@ public class UserController
 
     /*  Get next user acts*/
     @GetMapping(value = "/{email}/acts/next", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get all user acts", notes = "Get all user acts")
+    @ApiOperation(value = "Get next user acts", notes = "Get next user acts")
     public ResponseEntity getNextUserActs(@PathVariable String email)
     {
         List<Acte> actes = assistentService.getNextUserActs(email);
