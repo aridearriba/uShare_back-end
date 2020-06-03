@@ -82,13 +82,11 @@ public class UserDAOImpl extends AbstractSession implements UserDAO
         {
             Path<Boolean> comptarPath = user.get("comptarRepartir");
             Path<Boolean> competidorPath = user.get("competidor");
-            Path<Boolean> coblaCompeticioPath = user.get("coblaCompeticio");
 
             for (String habilitat : habilitats)
             {
                 if (habilitat.equals("comptar")) predicates.add(cb.isTrue(comptarPath));
                 else if (habilitat.equals("competidor")) predicates.add(cb.isTrue(competidorPath));
-                else if (habilitat.equals("coblaCompeticio")) predicates.add(cb.isTrue(coblaCompeticioPath));
             }
         }
 

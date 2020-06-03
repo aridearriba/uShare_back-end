@@ -72,13 +72,15 @@ public class UserController
             return new ResponseEntity("Some event name is wrong. It should be 'aplecs' or 'ballades' or 'concerts' or 'concursos' or 'cursets' or 'altres'.", HttpStatus.BAD_REQUEST);
 
         if (!checkPreferencesNames(habilitats))
-            return new ResponseEntity("Some 'habilitat' name is wrong. It should be 'comptar' or 'competidor' or 'coblaCompeticio'", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Some 'habilitat' name is wrong. It should be 'comptar' or 'competidor'", HttpStatus.BAD_REQUEST);
 
-        if ((edatMin != null && edatMax != null) && (edatMin < 1 || edatMax > 120 || edatMax < edatMin))
+        if (edatMin == null) edatMin = 0;
+        if (edatMax == null) edatMax = 1000;
+
+        if ((edatMin < 0 || edatMax > 1000 || edatMax < edatMin))
             return new ResponseEntity("Wrong range, check 'edatMin' and 'edatMax' values", HttpStatus.BAD_REQUEST);
 
-        if (edatMin == null) edatMin = 1;
-        if (edatMax == null) edatMax = 1000;
+        System.out.println("edat: " + edatMin.toString());
 
         List<User> users = userService.findByFilters(events, habilitats, edatMin, edatMax, comarca, transport);
         if(users == null)
@@ -264,12 +266,10 @@ public class UserController
     public static boolean checkPreferencesNames(List<String> preferences)
     {
         Boolean nameOK = false;
-        System.out.println("CHECK");
         if (preferences == null) return true;
         for (String preference: preferences)
         {
-            if (preference.equals("competidor") || preference.equals("coblaCompeticio")
-                    || preference.equals("comptar"))
+            if (preference.equals("competidor") || preference.equals("comptar"))
                 nameOK = true;
             else
             {

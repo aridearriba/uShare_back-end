@@ -29,7 +29,7 @@ public class getUserDTO
 
     private Boolean comptarRepartir;
     private Boolean competidor;
-    private Boolean coblaCompeticio;
+    private String  altresHabilitats;
 
     public getUserDTO() {}
 
@@ -53,7 +53,7 @@ public class getUserDTO
         this.altres = user.getAltres();
         this.comptarRepartir = user.getComptarRepartir();
         this.competidor = user.getCompetidor();
-        this.coblaCompeticio = user.getCoblaCompeticio();
+        this.altresHabilitats = user.getAltresHabilitats();
     }
 
     public String getEmail()
@@ -236,13 +236,13 @@ public class getUserDTO
         this.competidor = competidor;
     }
 
-    public Boolean getCoblaCompeticio()
+    public String getAltresHabilitats()
     {
-        return coblaCompeticio;
+        return altresHabilitats;
     }
 
-    public void setCoblaCompeticio(Boolean coblaCompeticio)
+    public void setAltresHabilitats(String altresHabilitats)
     {
-        this.coblaCompeticio = coblaCompeticio;
+        this.altresHabilitats = altresHabilitats;
     }
 }

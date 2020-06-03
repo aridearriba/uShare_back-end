@@ -32,7 +32,7 @@ public class User
 
     @Column(name = "comptarRepartir")       private Boolean comptarRepartir;
     @Column(name = "competidor")            private Boolean competidor;
-    @Column(name = "coblaCompeticio")       private Boolean coblaCompeticio;
+    @Column(name = "altresHabilitats")      private String altresHabilitats;
 
     public User() {}
 
@@ -226,13 +226,13 @@ public class User
         this.competidor = competidor;
     }
 
-    public Boolean getCoblaCompeticio()
+    public String getAltresHabilitats()
     {
-        return coblaCompeticio;
+        return altresHabilitats;
     }
 
-    public void setCoblaCompeticio(Boolean coblaCompeticio)
+    public void setAltresHabilitats(String altresHabilitats)
     {
-        this.coblaCompeticio = coblaCompeticio;
+        this.altresHabilitats = altresHabilitats;
     }
 }
