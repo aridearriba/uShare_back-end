@@ -6,6 +6,7 @@ import com.example.sardapp.api.service.UserService;
 import com.example.sardapp.entities.Acte;
 import com.example.sardapp.entities.Assistent;
 import com.example.sardapp.entities.User;
+import com.google.common.collect.Sets;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Api(tags = "Assistent")
@@ -44,6 +48,29 @@ public class AssistentsController
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<User>>(assistants, HttpStatus.OK);
+    }
+
+    /*  Get all assistants by filters */
+    @GetMapping(value = "/{id}/assistants/filters", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all assistants by filters", notes = "Get all assistants from an act by some filters")
+    public ResponseEntity getAssitants(@PathVariable Integer id,
+                                       @RequestParam(required = false) List<String> habilitats, @RequestParam(required = false) List<String> events,
+                                       @RequestParam(required = false) Integer edatMax, @RequestParam(required = false) Integer edatMin,
+                                       @RequestParam(required = false) String comarca, @RequestParam(required = false) Boolean transport)
+    {
+        List<User> assistants = assistentService.getAssistants(id);
+        if (assistants == null)
+        {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        List<User> users = userService.findByFilters(events, habilitats, edatMin, edatMax, comarca, transport);
+
+        List<User> intersect = users.stream()
+                    .filter(user -> assistants.stream()
+                    .anyMatch(ass -> user.getEmail().equals(ass.getEmail())))
+                    .collect(Collectors.toList());
+
+        return new ResponseEntity<List<User>>(intersect, HttpStatus.OK);
     }
 
     /*  Check assistance*/
