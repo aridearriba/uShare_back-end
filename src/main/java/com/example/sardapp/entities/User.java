@@ -18,7 +18,7 @@ public class User
     @Column(name = "name")                  private String name;
     @Column(name = "description")           private String description;
     @Column(name = "phoneNumber")           private Integer phoneNumber;
-    @JsonFormat(pattern="yyyy-mm-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "birthday")              private Date birthday;
     @Column(name = "vehicle")               private Boolean vehicle;
     @Column(name = "comarca")               private String comarca;
