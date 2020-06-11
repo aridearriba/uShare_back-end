@@ -70,7 +70,7 @@ public class AssistantDAOImpl extends AbstractSession implements AssistantDAO
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        return getSession().createQuery("select a.id from Acte act, Assistent a where a.id.usuari = '" + email + "' and a.id.acte = act.id and act.dia < '" + date.format(dateFormatter) + "'").list();
+        return getSession().createQuery("select act from Acte act, Assistent a where a.id.usuari = '" + email + "' and a.id.acte = act.id and act.dia < '" + date.format(dateFormatter) + "'").list();
     }
 
     @Override
