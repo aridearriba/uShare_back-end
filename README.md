@@ -1,4 +1,4 @@
-# SardApp
+# uShare
 
 ## Team members
 - Mohamed Benali
