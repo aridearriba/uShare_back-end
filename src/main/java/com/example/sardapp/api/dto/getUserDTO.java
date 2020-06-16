@@ -1,40 +1,60 @@
-package com.example.sardapp.entities;
+package com.example.sardapp.api.dto;
 
+import com.example.sardapp.entities.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
-@Table(name = "users")
-public class User
+public class getUserDTO
 {
-    @Id @Column(name = "email")             private String email;
-    @Column(name = "password")              private String password;
+    private String email;
+    private Boolean publicProfile;
+    private byte[] image;
+    private String imageType;
+    private String name;
+    private String description;
+    private Integer phoneNumber;
+    private Date birthday;
+    private Boolean vehicle;
+    private String comarca;
 
-    @Column(name = "public")                private Boolean publicProfile;
-    @Column(name = "profileImage")          private byte[] image;
-    @Column(name = "imageType")             private String imageType;
-    @Column(name = "name")                  private String name;
-    @Column(name = "description")           private String description;
-    @Column(name = "phoneNumber")           private Integer phoneNumber;
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "birthday")              private Date birthday;
-    @Column(name = "vehicle")               private Boolean vehicle;
-    @Column(name = "comarca")               private String comarca;
+    private Boolean aplecs;
+    private Boolean ballades;
+    private Boolean concerts;
+    private Boolean concursos;
+    private Boolean cursets;
+    private Boolean altres;
 
-    @Column(name = "aplecs")                private Boolean aplecs;
-    @Column(name = "ballades")              private Boolean ballades;
-    @Column(name = "concerts")              private Boolean concerts;
-    @Column(name = "concursos")             private Boolean concursos;
-    @Column(name = "cursets")               private Boolean cursets;
-    @Column(name = "altres")                private Boolean altres;
+    private Boolean comptarRepartir;
+    private Boolean competidor;
+    private String  altresHabilitats;
 
-    @Column(name = "comptarRepartir")       private Boolean comptarRepartir;
-    @Column(name = "competidor")            private Boolean competidor;
-    @Column(name = "altresHabilitats")      private String altresHabilitats;
+    public getUserDTO() {}
 
-    public User() {}
+    public getUserDTO(User user)
+    {
+        this.email = user.getEmail();
+        this.publicProfile = user.getPublicProfile();
+        this.image = user.getImage();
+        this.imageType = user.getImageType();
+        this.name = user.getName();
+        this.description = user.getDescription();
+        this.phoneNumber = user.getPhoneNumber();
+        this.birthday = user.getBirthday();
+        this.vehicle = user.getVehicle();
+        this.comarca = user.getComarca();
+        this.aplecs = user.getAplecs();
+        this.ballades = user.getBallades();
+        this.concerts = user.getConcerts();
+        this.concursos = user.getConcursos();
+        this.cursets = user.getCursets();
+        this.altres = user.getAltres();
+        this.comptarRepartir = user.getComptarRepartir();
+        this.competidor = user.getCompetidor();
+        this.altresHabilitats = user.getAltresHabilitats();
+    }
 
     public String getEmail()
     {
@@ -44,16 +64,6 @@ public class User
     public void setEmail(String email)
     {
         this.email = email;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
     }
 
     public Boolean getPublicProfile()
