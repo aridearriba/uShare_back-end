@@ -6,10 +6,10 @@
 - Ariadna de Arriba
 - Enric Segura
 
-## Front-end
+### Front-end
 - Mohamed Benali
 - Agustí Conesa
 
-## Back-end
+### Back-end
 - Ariadna de Arriba
 - Enric Segura
