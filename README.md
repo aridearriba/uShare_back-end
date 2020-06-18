@@ -1,5 +1,8 @@
 # uShare
 
+## API Reference
+http://sardapp.herokuapp.com/swagger-ui.html
+
 ## Team members
 - Mohamed Benali
 - Agustí Conesa
